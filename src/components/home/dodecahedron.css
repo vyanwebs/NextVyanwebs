@@ -1,0 +1,48 @@
+
+.mil-animation {
+  transform-style: preserve-3d;
+  animation: spin 30s infinite linear;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+.mil-dodecahedron {
+  width: 120px;
+  height: 120px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotateDodecahedron 20s infinite linear;
+}
+
+@keyframes rotateDodecahedron {
+  0% {
+    transform: rotateX(0deg) rotateY(0deg);
+  }
+  100% {
+    transform: rotateX(360deg) rotateY(360deg);
+  }
+}
+
+.mil-pentagon {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+}
+.mil-pentagon div {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: rgba(0, 174, 255, 0.15);
+  border: 1px solid rgba(0, 174, 255, 0.4);
+  box-shadow: 0 0 6px rgba(0, 174, 255, 0.6); /* 💡 glow effect */
+  transform-origin: center;
+  border-radius: 4px;
+}
