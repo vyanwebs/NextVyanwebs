@@ -7,7 +7,7 @@
       "@/Home/*": ["./src/views/Home/*"],
       "@/Contact/*": ["./src/views/Contact/*"],
       "@/Career/*": ["./src/views/Career/*"],
-      "@/About/*": ["./src/views/About/*"],u
+      "@/About/*": ["./src/views/About/*"],
       "@/Services/*": ["./src/views/Services/*"]
     }
   }
