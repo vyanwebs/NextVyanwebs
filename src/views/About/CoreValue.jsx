@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ourCoreValuesSeed } from "@/seeder/OurCoreValuesSeed";
+import { ourCoreValuesSeed } from "@/seeder/ourCoreValuesSeed";
 
 gsap.registerPlugin(ScrollTrigger);
 
