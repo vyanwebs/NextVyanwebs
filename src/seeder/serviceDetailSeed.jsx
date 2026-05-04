@@ -558,6 +558,124 @@ export const serviceDetailSeed = [
   navigation: {
       prev: { slug: "ecommerce-development", title: "E-Commerce Development" },
     next: { slug: "web-development", title: "Web Development" },
-  },
-}
+    },
+  }, 
+
+
+// =============================
+// AI / ML / DATA ENGINEERING
+// =============================
+{
+    slug: "ai-ml-data-engineering",
+
+    hero: {
+      title: "AI, Machine Learning & Data Engineering",
+      subtitle:
+        "Leverage Python, AI, and Big Data technologies to build intelligent, scalable, and data-driven systems.",
+      image: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+    },
+
+    services: [
+      {
+        title: "Python Backend Development",
+        description:
+          "We build high-performance APIs and backend systems using FastAPI, Django, and Flask with scalable architecture.",
+        icon: <Code />,
+      },
+      {
+        title: "Machine Learning Solutions",
+        description:
+          "Develop intelligent systems like recommendation engines, predictive analytics, NLP, and computer vision using TensorFlow and PyTorch.",
+        icon: <Bot />,
+      },
+      {
+        title: "Data Engineering & ETL Pipelines",
+        description:
+          "Design and implement scalable ETL pipelines, real-time data streaming, and batch processing systems.",
+        icon: <Activity />,
+      },
+      {
+        title: "Databricks & Big Data Solutions",
+        description:
+          "Build distributed data processing systems using Apache Spark and Databricks for large-scale analytics.",
+        icon: <Layers />,
+      },
+      {
+        title: "Snowflake Data Warehousing",
+        description:
+          "Implement modern cloud data warehouses using Snowflake for analytics, reporting, and business intelligence.",
+        icon: <Cloud />,
+      },
+      {
+        title: "Data Analytics & Visualization",
+        description:
+          "Turn raw data into insights using Power BI, Tableau, and Python libraries like Pandas and Matplotlib.",
+        icon: <Monitor />,
+      },
+      {
+        title: "AI Chatbots & Automation",
+        description:
+          "Build smart chatbots, automation tools, and AI assistants to enhance user engagement and efficiency.",
+        icon: <Bubbles />,
+      },
+      {
+        title: "AI API Development & Integration",
+        description:
+          "Deploy ML models as APIs using FastAPI and integrate them into web or mobile applications.",
+        icon: <Cable />,
+      },
+    ],
+
+    process: {
+      title: "Our AI & Data Workflow",
+      subtitle: "Intelligent, scalable, and data-driven",
+      steps: [
+        { title: "Data Collection", desc: "Gather structured & unstructured data" },
+        { title: "Data Processing", desc: "Clean and transform data" },
+        { title: "Model Development", desc: "Train ML/AI models" },
+        { title: "Deployment", desc: "Deploy via APIs or cloud" },
+        { title: "Monitoring", desc: "Optimize and improve models" },
+      ],
+    },
+
+    technologies: [
+      "Python",
+      "FastAPI",
+      "Django",
+      "TensorFlow",
+      "PyTorch",
+      "Scikit-learn",
+      "Pandas",
+      "NumPy",
+      "Apache Spark",
+      "Databricks",
+      "Snowflake",
+      "Airflow",
+      "AWS",
+      "GCP",
+    ],
+
+    faqs: [
+      {
+        question: "Do you deploy machine learning models to production?",
+        answer:
+          "Yes, we deploy ML models using APIs, Docker, and cloud platforms like AWS and GCP.",
+      },
+      {
+        question: "What is Databricks used for?",
+        answer:
+          "Databricks is used for big data processing, analytics, and building scalable data pipelines using Apache Spark.",
+      },
+      {
+        question: "Why use Snowflake?",
+        answer:
+          "Snowflake provides scalable cloud data warehousing with fast analytics, secure sharing, and zero infrastructure management.",
+      },
+    ],
+
+    navigation: {
+      prev: { slug: "cloud-devops", title: "Cloud & DevOps Solutions" },
+      next: { slug: "ai-ml-data-engineering", title: "AI & Data Solutions" },
+    },
+  }
 ];

@@ -7,6 +7,14 @@ gsap.registerPlugin(ScrollTrigger);
 const LogoSection = ({ logoData }) => {
   const sectionRef = useRef(null);
 
+  // Helper function to get image source
+  const getImageSrc = (img) => {
+    if (!img) return "";
+    if (typeof img === "string") return img;
+    if (typeof img === "object" && img.src) return img.src;
+    return "";
+  };
+
   useEffect(() => {
     const element = sectionRef.current;
 
@@ -25,17 +33,25 @@ const LogoSection = ({ logoData }) => {
         },
       }
     );
+
+    return () => {
+      // Clean up ScrollTrigger
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
   }, []);
+
+  if (!logoData) return null;
 
   return (
     <div
       ref={sectionRef}
-      className="py-10 sm:py-14 md:py-20 lg:py-24  dark:bg-gray-900 flex justify-center"
+      className="py-10 sm:py-14 md:py-20 lg:py-24 dark:bg-gray-900 flex justify-center"
     >
       <div className="text-center px-4 sm:px-6 lg:px-8 max-w-4xl">
-        <img loading="lazy"
-          className="mx-auto mb-4  lg:w-4/5 h-auto"
-          src={logoData.logo}
+        <img
+          loading="lazy"
+          className="mx-auto mb-4 lg:w-4/5 h-auto"
+          src={getImageSrc(logoData.logo)}
           alt="Project Logo"
         />
         <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-700 dark:text-gray-300 font-medium">

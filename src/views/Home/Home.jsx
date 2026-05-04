@@ -9,6 +9,7 @@ import Service from "../Home/services";
 import SuccessSnapshot from "./snapshot";
 import TestimonialSlider from "./testimonials";
 import ConnectBanner from "./connectBanner";
+import { workSeeder } from "../../seeder/workSeeder"; // ✅ ADD THIS IMPORT
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -53,7 +54,7 @@ const Home = () => {
           <SuccessSnapshot />
           <TestimonialSlider />
           <EngagementModels />
-          <CaseStudy />
+          <CaseStudy workSeeder={workSeeder} /> {/* ✅ PASS THE PROP HERE */}
           <ConnectBanner />
           <div className="absolute top-0 left-0 w-full h-full backdrop-blur-sm z-[-1]" />
         </div>

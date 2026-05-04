@@ -4,9 +4,15 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Dodecahedron from "../../components/home/Dodecahedron";
 import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
+
+// Static imports for all 5 images (much more reliable)
+import img1 from "@/assets/home/hero/img2.jpg";
+import img2 from "@/assets/home/hero/img1.jpg";
+import img3 from "@/assets/home/hero/img3.jpg";
+import img4 from "@/assets/home/hero/img4.jpg";
+import img5 from "@/assets/home/hero/img5.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,14 +21,37 @@ export default function HeroSection() {
   const textRef = useRef(null);
   const subTextRef = useRef(null);
   const buttonRef = useRef(null);
-  const shapeRefs = useRef([]);
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // All 5 images array
+  const backgroundImages = [
+    { url: img1.src, title: "Tech Background 1" },
+    { url: img2.src, title: "Tech Background 2" },
+    { url: img3.src, title: "Digital Technology Network" },
+    { url: img4.src, title: "Download Image" },
+    { url: img5.src, title: "Mundophone" }
+  ];
+
+  // Image rotation interval
+  useEffect(() => {
+    if (!isMounted) return;
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isMounted, backgroundImages.length]);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
+  // GSAP animations
   useEffect(() => {
     if (!isMounted) return;
 
@@ -72,37 +101,24 @@ export default function HeroSection() {
           });
         },
       });
-
-      shapeRefs.current.forEach((ref) => {
-        if (!ref) return;
-        const scaleAmount = window.innerWidth < 480 ? 0.9 : 0.8;
-        gsap.to(ref, {
-          scale: scaleAmount,
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top top",
-            end: "bottom top",
-            scrub: true,
-          },
-        });
-      });
     }, sectionRef);
 
     return () => ctx.revert();
   }, [isMounted]);
 
+  // Loading state
   if (!isMounted) {
     return (
       <section
-        className="min-h-screen text-white flex flex-col justify-center relative overflow-hidden"
-        style={{ padding: "clamp(1rem,5vw,8vw)", backgroundColor: "#121427" }}
+        className="min-h-screen text-white flex flex-col justify-center relative overflow-hidden bg-slate-900"
+        style={{ padding: "clamp(1rem,5vw,8vw)" }}
       >
         <div className="max-w-3xl z-20 relative">
           <p className="text-blue-400 uppercase tracking-widest mb-4 text-xs sm:text-sm">
-            A Software Development Company for Ambitious People
+            Software Development Company
           </p>
           <h1 className="font-bold leading-tight mb-6" style={{ fontSize: "clamp(1rem,5vw,3rem)" }}>
-            Empowering businesses <br /> with seamless digital transformation across leading platforms
+            Empowering businesses with custom software solutions
           </h1>
         </div>
       </section>
@@ -113,91 +129,91 @@ export default function HeroSection() {
     <section
       ref={sectionRef}
       className="min-h-screen text-white flex flex-col justify-center relative overflow-hidden"
-      style={{ padding: "clamp(1rem,5vw,8vw)", backgroundColor: "#121427" }}
+      style={{ padding: "clamp(1rem,5vw,8vw)" }}
     >
-      {/* Desktop Shape 1 */}
-      <div
-        ref={(el) => (shapeRefs.current[1] = el)}
-        className="absolute top-[-10vh] right-[35vw] hidden lg:block z-10"
-        style={{
-          width: "clamp(200px,35vw,500px)",
-          height: "clamp(200px,35vw,500px)",
-        }}
-      >
-        <Dodecahedron size={1200} />
+      {/* Sliding Background Images - All images now properly loaded */}
+      <div className="absolute inset-0 w-full h-full">
+        {backgroundImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out ${index === currentImageIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+              }`}
+            style={{
+              backgroundImage: `url(${image.url})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+          />
+        ))}
       </div>
 
-      {/* Desktop Shape 2 */}
-      <div
-        ref={(el) => (shapeRefs.current[2] = el)}
-        className="absolute bottom-[15vh] left-[30vw] hidden lg:block z-10"
-        style={{
-          width: "clamp(150px,15vw,300px)",
-          height: "clamp(150px,15vw,300px)",
-        }}
-      >
-        <Dodecahedron size={500} />
+      {/* Dark overlay for text readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/60 to-black/70 z-20" />
+
+      {/* Subtle blue gradient overlay for tech feel */}
+      <div className="absolute inset-0 bg-gradient-to-t from-blue-900/20 via-transparent to-transparent z-20" />
+
+      {/* Slider Indicators */}
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30 flex gap-2">
+        {backgroundImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentImageIndex(index)}
+            className={`transition-all duration-300 rounded-full ${index === currentImageIndex
+                ? "w-8 h-1 bg-blue-500"
+                : "w-6 h-1 bg-white/30 hover:bg-white/50"
+              }`}
+            aria-label={`Go to slide ${index + 1}`}
+          />
+        ))}
       </div>
 
-      {/* Tablet Shape */}
-      <div className="absolute inset-0 hidden md:flex lg:hidden justify-center items-center z-10">
-        <div
-          ref={(el) => (shapeRefs.current[3] = el)}
-          style={{
-            width: "clamp(200px,55vw,500px)",
-            height: "clamp(200px,55vw,500px)",
-            transform: "translateX(8vw)",
-          }}
-        >
-          <Dodecahedron size={900} />
+      {/* Text Content */}
+      <div className="max-w-4xl z-30 relative">
+        <div className="mb-4">
+          <span className="text-blue-400 uppercase tracking-[0.2em] text-xs sm:text-sm font-light bg-blue-500/10 px-4 py-2 rounded-full backdrop-blur-sm inline-block">
+            Software Development Company
+          </span>
         </div>
-      </div>
-
-      {/* Mobile Shape */}
-      <div className="absolute inset-0 flex md:hidden justify-center items-center z-10">
-        <div
-          ref={(el) => (shapeRefs.current[4] = el)}
-          style={{
-            width: "clamp(150px,80vw,400px)",
-            height: "clamp(100px,48vw,300px)",
-          }}
-        >
-          <Dodecahedron size={800} />
-        </div>
-      </div>
-
-      {/* TEXT */}
-      <div className="max-w-3xl z-20 relative">
-        <p className="text-blue-400 uppercase tracking-widest mb-4 text-xs sm:text-sm">
-          A Software Development Company for Ambitious People
-        </p>
 
         <h1
           ref={textRef}
-          className="font-bold leading-tight mb-6"
-          style={{ fontSize: "clamp(1rem,5vw,3rem)" }}
+          className="font-bold leading-tight mb-6 text-white"
+          style={{ fontSize: "clamp(2rem, 5vw, 4rem)" }}
         >
-          Empowering businesses <br /> with seamless digital transformation across leading platforms{" "}
-          <span className="text-blue-500">.</span>
+          Empowering businesses <br /> with seamless{" "}
+          <span className="bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent">
+            digital transformation
+          </span>
         </h1>
 
         <p
           ref={subTextRef}
-          className="text-gray-300 mb-6"
-          style={{ fontSize: "clamp(0.875rem,2.5vw,1.125rem)" }}
+          className="text-gray-200 mb-8 text-lg leading-relaxed max-w-2xl"
+          style={{ fontSize: "clamp(0.875rem, 2.5vw, 1.125rem)" }}
         >
           As a global catalyst for digital innovation, we help enterprises and start-ups unlock
-          sustainable growth through intelligent technology adoption
+          sustainable growth through intelligent technology adoption and custom software development.
         </p>
 
-        <button
-          ref={buttonRef}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-full transition-all duration-300 inline-flex items-center gap-2 text-sm sm:text-base"
-          onClick={() => router.push("/about")}
-        >
-          <span>Learn More</span>
-          <ArrowRight size={18} />
-        </button>
+        <div className="flex gap-4 flex-wrap">
+          <button
+            ref={buttonRef}
+            className="group bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 inline-flex items-center gap-2 text-sm sm:text-base shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/35"
+            onClick={() => router.push("/about")}
+          >
+            <span>Learn More</span>
+            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          </button>
+
+          <button
+            className="border border-white/30 hover:border-blue-500 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 inline-flex items-center gap-2 text-sm sm:text-base backdrop-blur-sm hover:bg-white/5"
+            onClick={() => router.push("/contact")}
+          >
+            <span>Contact Us</span>
+          </button>
+        </div>
       </div>
     </section>
   );
