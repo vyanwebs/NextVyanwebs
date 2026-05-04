@@ -30,9 +30,16 @@ export const ourServiceSeed = [
     des: "Cloud migration, CI/CD setup, automation pipelines, and server optimization for high-performance systems.",
   },
   {
-    name:"Software Development",
-    slug:"software-development",
-    img:"https://images.unsplash.com/photo-1551650975-87deedd944c3",
-    des:"Our software solutions are crafted with precision, designed to meet the unique demands of your business. As a software development company, we craft robust, scalable solutions for businesses of all sizes."
+    name: "Software Development",
+    slug: "software-development",
+    img: "https://images.unsplash.com/photo-1551650975-87deedd944c3",
+    des: "Robust, scalable software solutions tailored to business needs using modern architectures and technologies.",
+  },
+
+  {
+    name: "AI, Machine Learning & Data Engineering",
+    slug: "ai-ml-data-engineering",
+    img: "https://images.unsplash.com/photo-1677442136019-21780ecad995",
+    des: "Python-based AI/ML solutions, data pipelines, Databricks, Snowflake, and analytics systems to turn data into business intelligence.",
   }
 ];

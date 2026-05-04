@@ -10,6 +10,14 @@ const ProjectMobileView = ({ data }) => {
   const image2Ref = useRef(null);
   const textRef = useRef(null);
 
+  // Helper function to get image source
+  const getImageSrc = (img) => {
+    if (!img) return "";
+    if (typeof img === "string") return img;
+    if (typeof img === "object" && img.src) return img.src;
+    return "";
+  };
+
   useEffect(() => {
     if (!data) return;
 
@@ -54,13 +62,15 @@ const ProjectMobileView = ({ data }) => {
     return () => ctx.revert();
   }, [data]);
 
+  if (!data) return null;
+
   return (
     <section
       ref={sectionRef}
       className="bg-blue-600 text-white min-h-[90vh] flex flex-col justify-between pt-16"
     >
       <div className="container mx-auto px-4 flex-1 flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-        
+
         {/* LEFT PART */}
         <div className="w-full lg:w-1/2 flex flex-col">
           {/* Heading */}
@@ -72,18 +82,18 @@ const ProjectMobileView = ({ data }) => {
 
           {/* IMAGES FIXED */}
           <div className="relative w-full flex justify-center items-center">
-            
+
             {/* MOBILE VIEW → SIDE BY SIDE CENTERED */}
             <div className="flex lg:hidden w-full justify-center items-center gap-5">
               <img
                 ref={image1Ref}
-                src={data.images[0]}
+                src={getImageSrc(data.images?.[0])}
                 alt="Mobile 1"
                 className="h-64 sm:h-72 object-contain"
               />
               <img
                 ref={image2Ref}
-                src={data.images[1]}
+                src={getImageSrc(data.images?.[1])}
                 alt="Mobile 2"
                 className="h-64 sm:h-72 object-contain"
               />
@@ -93,7 +103,7 @@ const ProjectMobileView = ({ data }) => {
             <div className="hidden lg:block relative w-full h-[32rem]">
               <img
                 ref={image1Ref}
-                src={data.images[0]}
+                src={getImageSrc(data.images?.[0])}
                 alt="Mobile 1"
                 className="
                   absolute left-[15%] top-[10%]
@@ -103,7 +113,7 @@ const ProjectMobileView = ({ data }) => {
 
               <img
                 ref={image2Ref}
-                src={data.images[1]}
+                src={getImageSrc(data.images?.[1])}
                 alt="Mobile 2"
                 className="
                   absolute left-[55%] top-[20%]
@@ -120,7 +130,7 @@ const ProjectMobileView = ({ data }) => {
           ref={textRef}
           className="w-full lg:w-1/2 flex flex-col justify-center space-y-6 px-4"
         >
-          {data.mobileFeatures.map((feature, idx) => (
+          {data.mobileFeatures?.map((feature, idx) => (
             <div key={idx}>
               <h4 className="text-xl md:text-3xl font-semibold mb-2">
                 {feature.title}

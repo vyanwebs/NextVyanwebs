@@ -1,18 +1,10 @@
 const nextConfig = {
   reactStrictMode: false,
   images: {
-    unoptimized: true,
+    unoptimized: true, // keeps original quality for local assets
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "**",
-      },
-      {
-        protocol: "http",
-        hostname: "**",
-      },
+      { protocol: "https", hostname: "**" },
+      { protocol: "http", hostname: "**" },
     ],
   },
 };
-
-export default nextConfig;
