@@ -1,4 +1,4 @@
-// File: C:\Users\amanw\Downloads\vyanwebs-main1\vyanwebs-main\apps\Vyanwebs\app\contact\page.jsx
+// File: /home/ubuntu/NextVyanwebs/app/contact/page.jsx
 import * as entry from '../../../../app/contact/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

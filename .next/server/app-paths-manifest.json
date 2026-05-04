@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "/contact/page": "app/contact/page.js",
   "/_not-found/page": "app/_not-found/page.js",
   "/careers/page": "app/careers/page.js",
@@ -10,5 +11,18 @@
   "/services/[slug]/page": "app/services/[slug]/page.js",
   "/work/page": "app/work/page.js",
   "/services/page": "app/services/page.js",
+=======
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/services/[slug]/page": "app/services/[slug]/page.js",
+  "/services/page": "app/services/page.js",
+  "/work/[slug]/page": "app/work/[slug]/page.js",
+  "/work/page": "app/work/page.js",
+  "/about/page": "app/about/page.js",
+  "/careers/[slug]/page": "app/careers/[slug]/page.js",
+  "/careers/page": "app/careers/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/contact/privacys/page": "app/contact/privacys/page.js",
+>>>>>>> 208159ab51cb8cb8ed3c4e253b698cd0d086226c
   "/contact/terms/page": "app/contact/terms/page.js"
 }
