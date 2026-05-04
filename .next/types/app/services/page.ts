@@ -1,4 +1,4 @@
-// File: /home/ubuntu/NextVyanwebs/app/services/page.jsx
+// File: C:\Users\amanw\Downloads\vyanwebs-main1\vyanwebs-main\apps\Vyanwebs\app\services\page.jsx
 import * as entry from '../../../../app/services/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
