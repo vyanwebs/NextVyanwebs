@@ -40,11 +40,13 @@ const ProjectDesktopView = ({ images }) => {
     
     <section ref={sectionRef} className="max-w-full bg-white  ">
       <div className=" overflow-hidden">
-        <img loading="lazy"
+        <img
           ref={imgRef}
           src={images}
-        
           alt="Project desktop view"
+          width={1280}
+          height={720}
+          loading="lazy"
           className="w-full rounded-lg shadow-xl object-cover"
         />
       </div>

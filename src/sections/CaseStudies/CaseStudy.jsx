@@ -72,7 +72,7 @@ const CaseStudy = ({ workSeeder }) => {
   }, []);
 
   useEffect(() => {
-    const t = setTimeout(startMarquee, 120);
+    const t = setTimeout(startMarquee, 3000);
     return () => {
       clearTimeout(t);
       tween1Ref.current?.kill();
