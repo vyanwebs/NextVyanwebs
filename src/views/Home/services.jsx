@@ -1,4 +1,3 @@
-
 "use client";
 
 import React, {
@@ -8,7 +7,7 @@ import React, {
   useLayoutEffect,
   useCallback,
 } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ourServiceSeed } from "@/seeder/ourServiceSeed";
@@ -77,6 +76,18 @@ const Service = () => {
     currentIndexRef.current = clamped;
     setCurrentIndex(clamped);
   }, []);
+
+  const goPrev = useCallback(() => {
+    const total = servicesRef.current.length;
+    const prev = (currentIndexRef.current - 1 + total) % total;
+    goToIndex(prev);
+  }, [goToIndex]);
+
+  const goNext = useCallback(() => {
+    const total = servicesRef.current.length;
+    const next = (currentIndexRef.current + 1) % total;
+    goToIndex(next);
+  }, [goToIndex]);
 
   // — Heading entrance animation —
   useLayoutEffect(() => {
@@ -168,15 +179,50 @@ const Service = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
-
-          {/* Image wrapper — ref is on <img>, NOT the div */}
-          <div className="w-full lg:w-1/2 rounded-2xl overflow-hidden shadow-2xl">
+          {/* Image wrapper with left side slider arrows */}
+          <div className="relative w-full lg:w-1/2 rounded-2xl overflow-hidden shadow-2xl group">
             <img
               ref={imgRef}
               src={imgSrc}
               alt={service.name || "Service"}
               className="w-full h-64 sm:h-80 lg:h-[420px] object-cover"
             />
+
+            {/* Left Arrow */}
+            <button
+              onClick={goPrev}
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-10
+                         w-9 h-9 sm:w-11 sm:h-11
+                         rounded-full bg-black/50 hover:bg-blue-600
+                         border border-white/30 hover:border-blue-500
+                         text-white flex items-center justify-center
+                         transition-all duration-300 hover:scale-110"
+              aria-label="Previous service"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            {/* Right Arrow */}
+            <button
+              onClick={goNext}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-10
+                         w-9 h-9 sm:w-11 sm:h-11
+                         rounded-full bg-black/50 hover:bg-blue-600
+                         border border-white/30 hover:border-blue-500
+                         text-white flex items-center justify-center
+                         transition-all duration-300 hover:scale-110"
+              aria-label="Next service"
+            >
+              <ChevronRight size={20} />
+            </button>
+
+            {/* Counter */}
+            {/* <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10
+                            bg-black/60 text-white text-xs font-mono
+                            px-3 py-1 rounded-full
+                            backdrop-blur-sm">
+              {String(currentIndex + 1).padStart(2, "0")} / {String(servicesRef.current.length).padStart(2, "0")}
+            </div> */}
           </div>
 
           <div
@@ -210,19 +256,6 @@ const Service = () => {
                 className="transform group-hover:translate-x-1 transition-transform duration-300"
               />
             </a>
-
-            <div className="flex mt-10 gap-3 justify-center lg:justify-start">
-              {servicesRef.current.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
-                      ? "bg-blue-500 w-6"
-                      : "bg-gray-600 hover:bg-gray-500"
-                    }`}
-                />
-              ))}
-            </div>
           </div>
         </div>
       </div>

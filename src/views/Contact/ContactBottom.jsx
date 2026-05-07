@@ -12,10 +12,10 @@ const ContactBottom = () => {
 
   // ⭐ Hardcoded Stats
   const stats = [
-    { label: "Years in Business", value: 10, suffix: "+" },
-    { label: "Projects Delivered Globally", value: 350, suffix: "+" },
-    { label: "Global Client Retention Rate", value: 98, suffix: "%" },
-    { label: "Team Members", value: 45, suffix: "+" },
+    { label: "Years in Business", value: 3, suffix: "+" },
+    { label: "Projects Delivered Globally", value: 50, suffix: "+" },
+    { label: "Global Client Retention Rate", value: 95, suffix: "%" },
+    { label: "Team Members", value: 30, suffix: "+" },
   ];
 
   // Initialize displayed values to 0

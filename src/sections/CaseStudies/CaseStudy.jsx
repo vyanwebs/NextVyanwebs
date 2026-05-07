@@ -1,27 +1,28 @@
 "use client";
 
-import React, { useRef, useState, useEffect, useCallback } from "react";
+import React, { useRef, useEffect, useCallback } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const CaseStudy = ({ workSeeder }) => {
-  const carouselRef = useRef(null);
-  const cardRefs = useRef([]);
   const router = useRouter();
-
   const headingRef = useRef(null);
   const buttonRef = useRef(null);
+  const track1Ref = useRef(null);
+  const track2Ref = useRef(null);
+  const tween1Ref = useRef(null);
+  const tween2Ref = useRef(null);
 
   const caseStudies = workSeeder;
 
-  // Check if workSeeder exists
   if (!caseStudies || caseStudies.length === 0) {
     return (
-      <div className="bg-gray-900 py-16 md:py-20 lg:py-15 relative overflow-hidden">
+      <div className="bg-gray-900 py-16 relative overflow-hidden">
         <div className="text-center text-white">
           <p>Loading projects...</p>
         </div>
@@ -29,114 +30,84 @@ const CaseStudy = ({ workSeeder }) => {
     );
   }
 
-  const totalSlides = caseStudies.length;
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  // Helper function to get image source
   const getImageSrc = (img) => {
-    if (!img) return null;
-    if (typeof img === 'object' && img.src) return img.src;
-    if (typeof img === 'string') return img;
-    return null;
+    if (!img) return "";
+    if (typeof img === "object" && img.src) return img.src;
+    if (typeof img === "string") return img;
+    return "";
   };
 
-  const animateCards = useCallback(() => {
-    if (!carouselRef.current || cardRefs.current.length === 0) return;
+  const allCards = [...caseStudies, ...caseStudies, ...caseStudies];
 
-    const carouselWidth = carouselRef.current.offsetWidth;
-    const isMobile = window.innerWidth < 640;
+  const startMarquee = useCallback(() => {
+    [track1Ref, track2Ref].forEach((trackRef, rowIdx) => {
+      if (!trackRef.current) return;
+      const tweenRef = rowIdx === 0 ? tween1Ref : tween2Ref;
+      if (tweenRef.current) tweenRef.current.kill();
 
-    const cardBaseWidth = isMobile ? carouselWidth : carouselWidth / 3;
+      const trackWidth = trackRef.current.scrollWidth / 3;
 
-    cardRefs.current.forEach((card, index) => {
-      if (!card) return;
+      // Row 1 starts at 0, Row 2 starts offset
+      gsap.set(trackRef.current, { x: rowIdx === 1 ? -trackWidth : 0 });
 
-      const isCurrent = index === currentIndex;
-      const isPrev = index === (currentIndex - 1 + totalSlides) % totalSlides;
-      const isNext = index === (currentIndex + 1) % totalSlides;
-
-      let xPos = 0;
-      let scale = 0.8;
-      let opacity = 0.4;
-      let zIndex = 10;
-      let rotateY = 0;
-
-      if (isCurrent) {
-        xPos = 0;
-        scale = 1;
-        opacity = 1;
-        zIndex = 30;
-      }
-
-      if (isPrev) {
-        xPos = isMobile ? -carouselWidth : -cardBaseWidth * 0.9;
-        scale = 0.9;
-        opacity = 0.7;
-        rotateY = 10;
-      } else if (isNext) {
-        xPos = isMobile ? carouselWidth : cardBaseWidth * 0.9;
-        scale = 0.9;
-        opacity = 0.7;
-        rotateY = -10;
-      } else if (!isCurrent) {
-        const distance = index - currentIndex;
-        xPos = distance * (isMobile ? carouselWidth : cardBaseWidth * 1.2);
-        scale = 0.7;
-        opacity = 0.2;
-        rotateY = distance > 0 ? -20 : 20;
-      }
-
-      gsap.to(card, {
-        x: xPos,
-        scale,
-        opacity,
-        zIndex,
-        rotateY,
-        duration: 0.8,
-        ease: "power3.out",
+      tweenRef.current = gsap.to(trackRef.current, {
+        x: rowIdx === 0 ? `-=${trackWidth}` : `+=${trackWidth}`,
+        duration: trackWidth / 60,
+        ease: "none",
+        repeat: -1,
+        modifiers: {
+          x: gsap.utils.unitize((x) => {
+            const val = parseFloat(x);
+            if (rowIdx === 0) {
+              // sliding left — wrap when going too negative
+              return ((val % -trackWidth) - trackWidth) % -trackWidth;
+            } else {
+              // sliding right — wrap when going too positive
+              return ((val % trackWidth) + trackWidth) % trackWidth - trackWidth;
+            }
+          }),
+        },
       });
     });
-  }, [currentIndex, totalSlides]);
+  }, []);
 
   useEffect(() => {
-    animateCards();
+    const t = setTimeout(startMarquee, 120);
+    return () => {
+      clearTimeout(t);
+      tween1Ref.current?.kill();
+      tween2Ref.current?.kill();
+    };
+  }, [startMarquee]);
 
-    const cards = document.querySelectorAll(".case-card");
-    cards.forEach((card) => {
-      const content = card.querySelector(".card-content");
-      const image = card.querySelector(".card-image");
+  // Manual slide — nudge by one card width
+  const nudge = useCallback((row, direction) => {
+    const trackRef = row === 0 ? track1Ref : track2Ref;
+    const tweenRef = row === 0 ? tween1Ref : tween2Ref;
+    if (!trackRef.current) return;
 
-      const handleMouseEnter = () => {
-        gsap.to(content, { y: -5, duration: 0.3, ease: "power2.out" });
-        gsap.to(image, { scale: 1.1, duration: 0.3, ease: "power2.out" });
-      };
+    tweenRef.current?.pause();
 
-      const handleMouseLeave = () => {
-        gsap.to(content, { y: 0, duration: 0.3, ease: "power2.out" });
-        gsap.to(image, { scale: 1, duration: 0.3, ease: "power2.out" });
-      };
-
-      card.addEventListener("mouseenter", handleMouseEnter);
-      card.addEventListener("mouseleave", handleMouseLeave);
-
-      return () => {
-        card.removeEventListener("mouseenter", handleMouseEnter);
-        card.removeEventListener("mouseleave", handleMouseLeave);
-      };
+    gsap.to(trackRef.current, {
+      x: `+=${direction * 296}`, // card width + gap
+      duration: 0.5,
+      ease: "power2.out",
+      onComplete: () => tweenRef.current?.resume(),
     });
-  }, [currentIndex, animateCards]);
+  }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % totalSlides);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, [totalSlides]);
+  const pauseRow = useCallback((row) => {
+    (row === 0 ? tween1Ref : tween2Ref).current?.pause();
+  }, []);
 
+  const resumeRow = useCallback((row) => {
+    (row === 0 ? tween1Ref : tween2Ref).current?.resume();
+  }, []);
+
+  // Heading + button entrance
   useEffect(() => {
-    let ctx = gsap.context(() => {
-      const elements = [headingRef, buttonRef];
-      elements.forEach((ref, i) => {
+    const ctx = gsap.context(() => {
+      [headingRef, buttonRef].forEach((ref, i) => {
         if (!ref.current) return;
         gsap.fromTo(
           ref.current,
@@ -156,15 +127,127 @@ const CaseStudy = ({ workSeeder }) => {
         );
       });
     });
-
     return () => ctx.revert();
   }, []);
 
+  const Card = ({ work }) => {
+    const src = getImageSrc(work.screenImg);
+    return (
+      <div
+        onClick={() => router.push(`/work/${work.slug}`)}
+        className="cursor-pointer rounded-xl overflow-hidden flex-shrink-0
+                 bg-gradient-to-br from-gray-800 to-gray-900
+                 border border-gray-700 shadow-xl
+                 hover:border-blue-500/60 hover:-translate-y-1
+                 transition-all duration-300"
+        style={{ width: "280px" }}
+      >
+        {/* Image — plain img tag, no fill issues */}
+        <div className="overflow-hidden group" style={{ height: "158px" }}>
+          {src ? (
+            <img
+              src={src}
+              alt={work.title}
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <div className="w-full h-full bg-gray-700 flex items-center justify-center">
+              <span className="text-gray-400 text-sm">No image</span>
+            </div>
+          )}
+        </div>
+
+        <div className="p-3">
+          <p className="text-[10px] uppercase tracking-wide text-blue-400 mb-0.5 font-semibold truncate">
+            {work.subTitle}
+          </p>
+          <h5 className="text-sm font-bold text-white mb-1.5 truncate">
+            {work.title}
+          </h5>
+          <div className="flex flex-wrap gap-1">
+            {work.tags.slice(0, 3).map((tag, j) => (
+              <span
+                key={j}
+                className="bg-gray-700/80 text-blue-300 text-[9px] px-2 py-0.5 rounded-full border border-gray-600"
+              >
+                {tag}
+              </span>
+            ))}
+            {work.tags.length > 3 && (
+              <span className="bg-gray-700/80 text-gray-400 text-[9px] px-2 py-0.5 rounded-full">
+                +{work.tags.length - 3}
+              </span>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const Row = ({ trackRef, cards, rowIdx }) => (
+    <div className="relative">
+      {/* Left fade */}
+      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(to right, #111827, transparent)" }} />
+      {/* Right fade */}
+      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(to left, #111827, transparent)" }} />
+
+      {/* Left Arrow */}
+      <button
+        onClick={() => nudge(rowIdx, 1)}
+        className="absolute left-3 top-1/2 -translate-y-1/2 z-20
+                   w-9 h-9 rounded-full
+                   bg-gray-800/90 hover:bg-blue-600
+                   border border-gray-600 hover:border-blue-500
+                   text-white flex items-center justify-center
+                   transition-all duration-300 shadow-lg"
+        aria-label="Slide left"
+      >
+        <ChevronLeft size={18} />
+      </button>
+
+      {/* Right Arrow */}
+      <button
+        onClick={() => nudge(rowIdx, -1)}
+        className="absolute right-3 top-1/2 -translate-y-1/2 z-20
+                   w-9 h-9 rounded-full
+                   bg-gray-800/90 hover:bg-blue-600
+                   border border-gray-600 hover:border-blue-500
+                   text-white flex items-center justify-center
+                   transition-all duration-300 shadow-lg"
+        aria-label="Slide right"
+      >
+        <ChevronRight size={18} />
+      </button>
+
+      {/* Track */}
+      <div
+        className="overflow-hidden px-12 sm:px-16"
+        onMouseEnter={() => pauseRow(rowIdx)}
+        onMouseLeave={() => resumeRow(rowIdx)}
+      >
+        <div
+          ref={trackRef}
+          className="flex gap-4 w-max py-2"
+          style={{ willChange: "transform" }}
+        >
+          {cards.map((work, i) => (
+            <Card key={`row${rowIdx}-${work.slug}-${i}`} work={work} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
   return (
-    <div className="bg-gray-900 py-16 md:py-20 lg:py-15 relative overflow-hidden">
+    <div className="bg-gray-900 py-16 relative overflow-hidden">
+
+      {/* Heading */}
       <h2
         ref={headingRef}
-        className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white mb-12 md:mb-20 lg:mb-35"
+        style={{ opacity: 1 }}
+        className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white mb-12"
       >
         Case{" "}
         <span
@@ -179,92 +262,22 @@ const CaseStudy = ({ workSeeder }) => {
         <span className="text-blue-500">.</span>
       </h2>
 
-      {/* Carousel */}
-      <div
-        ref={carouselRef}
-        className="relative flex justify-center items-center px-4 sm:px-8 py-10 md:px-12"
-      >
-        <div className="relative flex justify-center items-center h-[400px] sm:h-[450px] md:h-[500px]">
-          {caseStudies.map((work, index) => (
-            <div
-              key={work.slug || index}
-              ref={(el) => (cardRefs.current[index] = el)}
-              className="case-card absolute w-72 sm:w-80 md:w-96 lg:w-[420px] px-2 cursor-pointer overflow-visible"
-              onClick={() => router.push(`/work/${work.slug}`)}
-            >
-              <div className="flex flex-col justify-between h-full rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 shadow-2xl border border-gray-700">
-                {/* Main High Quality Image */}
-                <div className="relative w-full aspect-[4/3] overflow-hidden group card-image">
-                  <Image
-                    src={getImageSrc(work.screenImg) || work.screenImg}
-                    alt={work.title}
-                    fill
-                    quality={100}
-                    priority={index === currentIndex}
-                    sizes="(max-width: 640px) 288px, (max-width: 768px) 320px, (max-width: 1024px) 384px, 420px"
-                    className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900 via-transparent to-transparent opacity-60" />
-                </div>
-
-                {/* Content */}
-                <div className="p-4 sm:p-5 card-content">
-                  <p className="text-[11px] sm:text-xs uppercase tracking-wide text-blue-400 mb-1 font-semibold">
-                    {work.subTitle}
-                  </p>
-                  <h5 className="text-base sm:text-lg font-bold text-white mb-2 sm:mb-3">
-                    {work.title}
-                  </h5>
-                  <div className="flex flex-wrap gap-1.5 sm:gap-2">
-                    {work.tags.slice(0, 4).map((tag, i) => (
-                      <span
-                        key={i}
-                        className="bg-gray-700/80 text-blue-300 text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full border border-gray-600"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                    {work.tags.length > 4 && (
-                      <span className="bg-gray-700/80 text-gray-400 text-[10px] sm:text-xs px-2 sm:px-3 py-0.5 sm:py-1 rounded-full">
-                        +{work.tags.length - 4}
-                      </span>
-                    )}
-                  </div>
-                  {work.backend && (
-                    <div className="mt-3">
-                      <span className="text-[10px] sm:text-xs bg-blue-500/20 text-blue-400 px-2 py-0.5 rounded-full">
-                        Backend: {work.backend}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Indicators */}
-      <div className="flex justify-center mt-16 space-x-2">
-        {caseStudies.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-6 mt-6 h-1 transition-all duration-300 ${currentIndex === index
-                ? "bg-blue-500 scale-110"
-                : "bg-gray-500/50 hover:bg-gray-400"
-              }`}
-          />
-        ))}
+      {/* Outer container with left/right margin */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+        <Row trackRef={track1Ref} cards={allCards} rowIdx={0} />
+        <Row trackRef={track2Ref} cards={[...allCards].reverse()} rowIdx={1} />
       </div>
 
       {/* Bottom Button */}
-      <div className="flex justify-center items-center mt-10 md:mt-12">
+      <div className="flex justify-center items-center mt-10">
         <button
           ref={buttonRef}
+          style={{ opacity: 1 }}
           onClick={() => router.push("/work")}
-          className="flex items-center border-2 border-blue-500 text-blue-500 rounded-full px-5 sm:px-7 py-2 sm:py-2.5 hover:bg-blue-500 hover:text-white transition-all duration-300 font-semibold text-sm sm:text-base"
+          className="flex items-center border-2 border-blue-500 text-blue-500 rounded-full
+                     px-5 sm:px-7 py-2 sm:py-2.5
+                     hover:bg-blue-500 hover:text-white
+                     transition-all duration-300 font-semibold text-sm sm:text-base"
         >
           See All Work <span className="ml-2 text-lg sm:text-xl">→</span>
         </button>
