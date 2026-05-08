@@ -7,7 +7,7 @@ import React, {
   useLayoutEffect,
   useCallback,
 } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ourServiceSeed } from "@/seeder/ourServiceSeed";
@@ -20,17 +20,17 @@ const AUTO_ROTATE_SECONDS = 7;
 const Service = () => {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
-  const imgRef = useRef(null);
+  const imgRef = useRef(null);      // ← now on the <img> tag directly
   const descRef = useRef(null);
 
   const observerRef = useRef(null);
   const servicesRef = useRef(ourServiceSeed);
   const currentIndexRef = useRef(0);
-  const autoRotateEnabledRef = useRef(true);
 
   const [isVisible, setIsVisible] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // — Intersection observer —
   useEffect(() => {
     if (observerRef.current) return;
 
@@ -46,21 +46,20 @@ const Service = () => {
     );
 
     if (sectionRef.current) observerRef.current.observe(sectionRef.current);
-
     return () => observerRef.current?.disconnect();
   }, []);
 
+  // — Auto-rotate —
   useEffect(() => {
+    if (!isVisible) return;
+
+    let elapsed = 0;
+
     const onTick = () => {
-      if (!autoRotateEnabledRef.current || !isVisible) return;
-
-      if (!onTick.elapsed) onTick.elapsed = 0;
-      onTick.elapsed += gsap.ticker.deltaMS / 1000;
-
-      if (onTick.elapsed >= AUTO_ROTATE_SECONDS) {
-        onTick.elapsed = 0;
-        const total = servicesRef.current.length;
-        const next = (currentIndexRef.current + 1) % total;
+      elapsed += gsap.ticker.deltaMS / 1000;
+      if (elapsed >= AUTO_ROTATE_SECONDS) {
+        elapsed = 0;
+        const next = (currentIndexRef.current + 1) % servicesRef.current.length;
         currentIndexRef.current = next;
         setCurrentIndex(next);
       }
@@ -70,6 +69,7 @@ const Service = () => {
     return () => gsap.ticker.remove(onTick);
   }, [isVisible]);
 
+  // — Manual nav —
   const goToIndex = useCallback((index) => {
     const total = servicesRef.current.length;
     const clamped = ((index % total) + total) % total;
@@ -77,6 +77,19 @@ const Service = () => {
     setCurrentIndex(clamped);
   }, []);
 
+  const goPrev = useCallback(() => {
+    const total = servicesRef.current.length;
+    const prev = (currentIndexRef.current - 1 + total) % total;
+    goToIndex(prev);
+  }, [goToIndex]);
+
+  const goNext = useCallback(() => {
+    const total = servicesRef.current.length;
+    const next = (currentIndexRef.current + 1) % total;
+    goToIndex(next);
+  }, [goToIndex]);
+
+  // — Heading entrance animation —
   useLayoutEffect(() => {
     if (!isVisible || !headingRef.current) return;
 
@@ -101,11 +114,20 @@ const Service = () => {
     return () => ctx.revert();
   }, [isVisible]);
 
+  // — Image + desc swap animation —
   useLayoutEffect(() => {
     if (!isVisible) return;
 
-    const imageEl = imgRef.current;
+    const imageEl = imgRef.current;   // ← points to <img> now
     const descEl = descRef.current;
+    if (!imageEl || !descEl) return;
+
+    const service = servicesRef.current[currentIndex];
+    const newSrc = service?.img
+      ? typeof service.img === "object"
+        ? service.img.src          // Next.js imported image object
+        : service.img              // plain URL string
+      : "";
 
     const tl = gsap.timeline();
 
@@ -115,38 +137,24 @@ const Service = () => {
       duration: 0.45,
       ease: "power2.inOut",
       onComplete: () => {
-        const src = servicesRef.current[currentIndex]?.img || "";
-        if (src && imageEl.src !== src) imageEl.src = src;
+        imageEl.src = newSrc;      // swap src while invisible
       },
     })
-      .to(imageEl, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power3.out",
-      })
-      .to(
-        descEl,
-        {
-          opacity: 0,
-          y: 30,
-          duration: 0.35,
-          ease: "power2.inOut",
-        },
-        "<"
-      )
-      .to(descEl, {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        ease: "power3.out",
-        delay: 0.05,
-      });
+      .to(imageEl, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" })
+      .to(descEl, { opacity: 0, y: 30, duration: 0.35, ease: "power2.inOut" }, "<")
+      .to(descEl, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out", delay: 0.05 });
 
     return () => tl.kill();
   }, [currentIndex, isVisible]);
 
   const service = servicesRef.current[currentIndex] || {};
+
+  // Resolve img src safely for the initial render
+  const imgSrc = service.img
+    ? typeof service.img === "object"
+      ? service.img.src
+      : service.img
+    : "";
 
   return (
     <section
@@ -159,7 +167,7 @@ const Service = () => {
         backgroundRepeat: "no-repeat",
       }}
     >
-      <div className="absolute inset-0 bg-black/60"></div>
+      <div className="absolute inset-0 bg-black/60" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-[8vw]">
         <div className="mb-12 md:mb-16 text-center" ref={headingRef}>
@@ -171,15 +179,50 @@ const Service = () => {
         </div>
 
         <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
-          <div
-            ref={imgRef}
-            className="w-full lg:w-1/2 rounded-2xl overflow-hidden shadow-2xl"
-          >
+          {/* Image wrapper with left side slider arrows */}
+          <div className="relative w-full lg:w-1/2 rounded-2xl overflow-hidden shadow-2xl group">
             <img
-              src={service.img || ""}
+              ref={imgRef}
+              src={imgSrc}
               alt={service.name || "Service"}
               className="w-full h-64 sm:h-80 lg:h-[420px] object-cover"
             />
+
+            {/* Left Arrow */}
+            <button
+              onClick={goPrev}
+              className="absolute left-3 top-1/2 -translate-y-1/2 z-10
+                         w-9 h-9 sm:w-11 sm:h-11
+                         rounded-full bg-black/50 hover:bg-blue-600
+                         border border-white/30 hover:border-blue-500
+                         text-white flex items-center justify-center
+                         transition-all duration-300 hover:scale-110"
+              aria-label="Previous service"
+            >
+              <ChevronLeft size={20} />
+            </button>
+
+            {/* Right Arrow */}
+            <button
+              onClick={goNext}
+              className="absolute right-3 top-1/2 -translate-y-1/2 z-10
+                         w-9 h-9 sm:w-11 sm:h-11
+                         rounded-full bg-black/50 hover:bg-blue-600
+                         border border-white/30 hover:border-blue-500
+                         text-white flex items-center justify-center
+                         transition-all duration-300 hover:scale-110"
+              aria-label="Next service"
+            >
+              <ChevronRight size={20} />
+            </button>
+
+            {/* Counter */}
+            {/* <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10
+                            bg-black/60 text-white text-xs font-mono
+                            px-3 py-1 rounded-full
+                            backdrop-blur-sm">
+              {String(currentIndex + 1).padStart(2, "0")} / {String(servicesRef.current.length).padStart(2, "0")}
+            </div> */}
           </div>
 
           <div
@@ -196,9 +239,9 @@ const Service = () => {
 
             <a
               href={`/services/${service.slug}`}
-              className="inline-flex items-center gap-2 px-6 py-3 mt-4 font-semibold rounded-lg 
-             bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300
-             group w-fit"
+              className="inline-flex items-center gap-2 px-6 py-3 mt-4 font-semibold rounded-lg
+               bg-blue-600 hover:bg-blue-700 text-white transition-all duration-300
+               group w-fit"
             >
               <span className="relative overflow-hidden">
                 <span className="block group-hover:-translate-y-full transition-transform duration-300">
@@ -208,25 +251,11 @@ const Service = () => {
                   Learn More
                 </span>
               </span>
-
               <ArrowRight
                 size={18}
                 className="transform group-hover:translate-x-1 transition-transform duration-300"
               />
             </a>
-
-            <div className="flex mt-10 gap-3 justify-center lg:justify-start">
-              {servicesRef.current.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => goToIndex(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${index === currentIndex
-                      ? "bg-blue-500 w-6"
-                      : "bg-gray-600 hover:bg-gray-500"
-                    }`}
-                />
-              ))}
-            </div>
           </div>
         </div>
       </div>

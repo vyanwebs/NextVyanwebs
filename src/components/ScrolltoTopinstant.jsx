@@ -11,7 +11,7 @@ export default function ScrollToTopOnRouteChange() {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "instant", // you can also try "auto" if instant doesn't work
+      behavior: "instant",
     });
   }, [pathname]);
 
