@@ -5,4 +5,4 @@ export const metadata = {
   alternates: { canonical: "https://vyanwebs.com/contact/terms" },
 };
 
-export default Terms;
+export default Term;

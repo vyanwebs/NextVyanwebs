@@ -9,7 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const WhatsAppButton = () => (
   <a
-    href="https://wa.me/917049005720"
+    href="https://wa.me/919111721315"
     target="_blank"
     rel="noopener noreferrer"
     className="fixed bottom-6 right-6 z-[99999] bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center"

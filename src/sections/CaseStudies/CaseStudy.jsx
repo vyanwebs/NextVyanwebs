@@ -39,6 +39,10 @@ const CaseStudy = ({ workSeeder }) => {
 
   const allCards = [...caseStudies, ...caseStudies, ...caseStudies];
 
+  const CARD_WIDTH = 420;
+  const CARD_GAP = 20;
+  const NUDGE = CARD_WIDTH + CARD_GAP;
+
   const startMarquee = useCallback(() => {
     [track1Ref, track2Ref].forEach((trackRef, rowIdx) => {
       if (!trackRef.current) return;
@@ -47,7 +51,6 @@ const CaseStudy = ({ workSeeder }) => {
 
       const trackWidth = trackRef.current.scrollWidth / 3;
 
-      // Row 1 starts at 0, Row 2 starts offset
       gsap.set(trackRef.current, { x: rowIdx === 1 ? -trackWidth : 0 });
 
       tweenRef.current = gsap.to(trackRef.current, {
@@ -59,10 +62,8 @@ const CaseStudy = ({ workSeeder }) => {
           x: gsap.utils.unitize((x) => {
             const val = parseFloat(x);
             if (rowIdx === 0) {
-              // sliding left — wrap when going too negative
               return ((val % -trackWidth) - trackWidth) % -trackWidth;
             } else {
-              // sliding right — wrap when going too positive
               return ((val % trackWidth) + trackWidth) % trackWidth - trackWidth;
             }
           }),
@@ -80,7 +81,6 @@ const CaseStudy = ({ workSeeder }) => {
     };
   }, [startMarquee]);
 
-  // Manual slide — nudge by one card width
   const nudge = useCallback((row, direction) => {
     const trackRef = row === 0 ? track1Ref : track2Ref;
     const tweenRef = row === 0 ? tween1Ref : tween2Ref;
@@ -89,7 +89,7 @@ const CaseStudy = ({ workSeeder }) => {
     tweenRef.current?.pause();
 
     gsap.to(trackRef.current, {
-      x: `+=${direction * 296}`, // card width + gap
+      x: `+=${direction * NUDGE}`,
       duration: 0.5,
       ease: "power2.out",
       onComplete: () => tweenRef.current?.resume(),
@@ -104,7 +104,6 @@ const CaseStudy = ({ workSeeder }) => {
     (row === 0 ? tween1Ref : tween2Ref).current?.resume();
   }, []);
 
-  // Heading + button entrance
   useEffect(() => {
     const ctx = gsap.context(() => {
       [headingRef, buttonRef].forEach((ref, i) => {
@@ -135,15 +134,15 @@ const CaseStudy = ({ workSeeder }) => {
     return (
       <div
         onClick={() => router.push(`/work/${work.slug}`)}
-        className="cursor-pointer rounded-xl overflow-hidden flex-shrink-0
-                 bg-gradient-to-br from-gray-800 to-gray-900
-                 border border-gray-700 shadow-xl
-                 hover:border-blue-500/60 hover:-translate-y-1
-                 transition-all duration-300"
-        style={{ width: "280px" }}
+        className="cursor-pointer rounded-2xl overflow-hidden flex-shrink-0
+                   bg-gradient-to-br from-gray-800 to-gray-900
+                   border border-gray-700 shadow-xl
+                   hover:border-blue-500/60 hover:-translate-y-2
+                   transition-all duration-300"
+        style={{ width: `${CARD_WIDTH}px` }}
       >
-        {/* Image — plain img tag, no fill issues */}
-        <div className="overflow-hidden group" style={{ height: "158px" }}>
+        {/* Image */}
+        <div className="overflow-hidden group" style={{ height: "240px" }}>
           {src ? (
             <img
               src={src}
@@ -152,29 +151,30 @@ const CaseStudy = ({ workSeeder }) => {
             />
           ) : (
             <div className="w-full h-full bg-gray-700 flex items-center justify-center">
-              <span className="text-gray-400 text-sm">No image</span>
+              <span className="text-gray-400 text-base">No image</span>
             </div>
           )}
         </div>
 
-        <div className="p-3">
-          <p className="text-[10px] uppercase tracking-wide text-blue-400 mb-0.5 font-semibold truncate">
+        {/* Content */}
+        <div className="p-5">
+          <p className="text-xs uppercase tracking-widest text-blue-400 mb-1 font-semibold truncate">
             {work.subTitle}
           </p>
-          <h5 className="text-sm font-bold text-white mb-1.5 truncate">
+          <h5 className="text-lg font-bold text-white mb-3 truncate">
             {work.title}
           </h5>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-1.5">
             {work.tags.slice(0, 3).map((tag, j) => (
               <span
                 key={j}
-                className="bg-gray-700/80 text-blue-300 text-[9px] px-2 py-0.5 rounded-full border border-gray-600"
+                className="bg-gray-700/80 text-blue-300 text-xs px-3 py-1 rounded-full border border-gray-600"
               >
                 {tag}
               </span>
             ))}
             {work.tags.length > 3 && (
-              <span className="bg-gray-700/80 text-gray-400 text-[9px] px-2 py-0.5 rounded-full">
+              <span className="bg-gray-700/80 text-gray-400 text-xs px-3 py-1 rounded-full">
                 +{work.tags.length - 3}
               </span>
             )}
@@ -187,50 +187,54 @@ const CaseStudy = ({ workSeeder }) => {
   const Row = ({ trackRef, cards, rowIdx }) => (
     <div className="relative">
       {/* Left fade */}
-      <div className="absolute left-0 top-0 bottom-0 w-16 sm:w-24 z-10 pointer-events-none"
-        style={{ background: "linear-gradient(to right, #111827, transparent)" }} />
+      <div
+        className="absolute left-0 top-0 bottom-0 w-20 sm:w-32 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(to right, #111827, transparent)" }}
+      />
       {/* Right fade */}
-      <div className="absolute right-0 top-0 bottom-0 w-16 sm:w-24 z-10 pointer-events-none"
-        style={{ background: "linear-gradient(to left, #111827, transparent)" }} />
+      <div
+        className="absolute right-0 top-0 bottom-0 w-20 sm:w-32 z-10 pointer-events-none"
+        style={{ background: "linear-gradient(to left, #111827, transparent)" }}
+      />
 
       {/* Left Arrow */}
       <button
         onClick={() => nudge(rowIdx, 1)}
-        className="absolute left-3 top-1/2 -translate-y-1/2 z-20
-                   w-9 h-9 rounded-full
+        className="absolute left-4 top-1/2 -translate-y-1/2 z-20
+                   w-11 h-11 rounded-full
                    bg-gray-800/90 hover:bg-blue-600
                    border border-gray-600 hover:border-blue-500
                    text-white flex items-center justify-center
                    transition-all duration-300 shadow-lg"
         aria-label="Slide left"
       >
-        <ChevronLeft size={18} />
+        <ChevronLeft size={22} />
       </button>
 
       {/* Right Arrow */}
       <button
         onClick={() => nudge(rowIdx, -1)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 z-20
-                   w-9 h-9 rounded-full
+        className="absolute right-4 top-1/2 -translate-y-1/2 z-20
+                   w-11 h-11 rounded-full
                    bg-gray-800/90 hover:bg-blue-600
                    border border-gray-600 hover:border-blue-500
                    text-white flex items-center justify-center
                    transition-all duration-300 shadow-lg"
         aria-label="Slide right"
       >
-        <ChevronRight size={18} />
+        <ChevronRight size={22} />
       </button>
 
       {/* Track */}
       <div
-        className="overflow-hidden px-12 sm:px-16"
+        className="overflow-hidden px-14 sm:px-20"
         onMouseEnter={() => pauseRow(rowIdx)}
         onMouseLeave={() => resumeRow(rowIdx)}
       >
         <div
           ref={trackRef}
-          className="flex gap-4 w-max py-2"
-          style={{ willChange: "transform" }}
+          className="flex w-max py-3"
+          style={{ gap: `${CARD_GAP}px`, willChange: "transform" }}
         >
           {cards.map((work, i) => (
             <Card key={`row${rowIdx}-${work.slug}-${i}`} work={work} />
@@ -241,13 +245,13 @@ const CaseStudy = ({ workSeeder }) => {
   );
 
   return (
-    <div className="bg-gray-900 py-16 relative overflow-hidden">
+    <div className="bg-gray-900 py-20 relative overflow-hidden">
 
       {/* Heading */}
       <h2
         ref={headingRef}
         style={{ opacity: 1 }}
-        className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white mb-12"
+        className="text-3xl md:text-4xl lg:text-5xl font-bold text-center text-white mb-14"
       >
         Case{" "}
         <span
@@ -262,20 +266,20 @@ const CaseStudy = ({ workSeeder }) => {
         <span className="text-blue-500">.</span>
       </h2>
 
-      {/* Outer container with left/right margin */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-4">
+      {/* 2 Rows */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
         <Row trackRef={track1Ref} cards={allCards} rowIdx={0} />
         <Row trackRef={track2Ref} cards={[...allCards].reverse()} rowIdx={1} />
       </div>
 
       {/* Bottom Button */}
-      <div className="flex justify-center items-center mt-10">
+      <div className="flex justify-center items-center mt-12">
         <button
           ref={buttonRef}
           style={{ opacity: 1 }}
           onClick={() => router.push("/work")}
           className="flex items-center border-2 border-blue-500 text-blue-500 rounded-full
-                     px-5 sm:px-7 py-2 sm:py-2.5
+                     px-6 sm:px-8 py-2.5 sm:py-3
                      hover:bg-blue-500 hover:text-white
                      transition-all duration-300 font-semibold text-sm sm:text-base"
         >

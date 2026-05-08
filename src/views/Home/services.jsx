@@ -13,14 +13,34 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ourServiceSeed } from "@/seeder/ourServiceSeed";
 import bgImage from "../../assets/service-bg-image.png";
 
+// Import images from discoverhome folder
+import aiMlImage from "../../assets/discoverhome/AI, Machine Learning & Data Engineering.jpg";
+import appdevImage from "../../assets/discoverhome/appdev.jpg";
+import cloudImage from "../../assets/discoverhome/cloud.jpg";
+import ecommerceImage from "../../assets/discoverhome/eccomerce.jpg";
+import figmaImage from "../../assets/discoverhome/figma.jpg";
+import softwaredevImage from "../../assets/discoverhome/softwaredev.jpg";
+import webdevImage from "../../assets/discoverhome/webdev.jpg";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const AUTO_ROTATE_SECONDS = 7;
 
+// Map service names to images
+const serviceImageMap = {
+  "AI, Machine Learning & Data Engineering": aiMlImage,
+  "App Development": appdevImage,
+  "Cloud Solutions": cloudImage,
+  "E-commerce Development": ecommerceImage,
+  "UI/UX Design": figmaImage,
+  "Software Development": softwaredevImage,
+  "Web Development": webdevImage,
+};
+
 const Service = () => {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
-  const imgRef = useRef(null);      // ← now on the <img> tag directly
+  const imgRef = useRef(null);
   const descRef = useRef(null);
 
   const observerRef = useRef(null);
@@ -118,16 +138,12 @@ const Service = () => {
   useLayoutEffect(() => {
     if (!isVisible) return;
 
-    const imageEl = imgRef.current;   // ← points to <img> now
+    const imageEl = imgRef.current;
     const descEl = descRef.current;
     if (!imageEl || !descEl) return;
 
     const service = servicesRef.current[currentIndex];
-    const newSrc = service?.img
-      ? typeof service.img === "object"
-        ? service.img.src          // Next.js imported image object
-        : service.img              // plain URL string
-      : "";
+    const newSrc = serviceImageMap[service.name] || serviceImageMap["Web Development"];
 
     const tl = gsap.timeline();
 
@@ -137,7 +153,7 @@ const Service = () => {
       duration: 0.45,
       ease: "power2.inOut",
       onComplete: () => {
-        imageEl.src = newSrc;      // swap src while invisible
+        imageEl.src = newSrc.src;
       },
     })
       .to(imageEl, { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" })
@@ -150,11 +166,7 @@ const Service = () => {
   const service = servicesRef.current[currentIndex] || {};
 
   // Resolve img src safely for the initial render
-  const imgSrc = service.img
-    ? typeof service.img === "object"
-      ? service.img.src
-      : service.img
-    : "";
+  const imgSrc = serviceImageMap[service.name]?.src || serviceImageMap["Web Development"]?.src || "";
 
   return (
     <section
@@ -215,14 +227,6 @@ const Service = () => {
             >
               <ChevronRight size={20} />
             </button>
-
-            {/* Counter */}
-            {/* <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-10
-                            bg-black/60 text-white text-xs font-mono
-                            px-3 py-1 rounded-full
-                            backdrop-blur-sm">
-              {String(currentIndex + 1).padStart(2, "0")} / {String(servicesRef.current.length).padStart(2, "0")}
-            </div> */}
           </div>
 
           <div

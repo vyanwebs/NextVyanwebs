@@ -5,4 +5,4 @@ export const metadata = {
   alternates: { canonical: "https://vyanwebs.com/careers" },
 };
 
-export default Careers;
+export default Career;
