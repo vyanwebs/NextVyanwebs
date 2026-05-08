@@ -10,4 +10,4 @@ export async function generateMetadata({ params }) {
 }
 
 export default ServiceDetails;
-}
+

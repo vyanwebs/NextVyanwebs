@@ -5,4 +5,4 @@ export const metadata = {
   alternates: { canonical: "https://vyanwebs.com/services" },
 };
 
-export default Services;
+export default ServicePage;
