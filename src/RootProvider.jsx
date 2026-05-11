@@ -118,8 +118,8 @@ const ChatBot = () => {
         <Image
           src={chatBotIcon}
           alt="Chat Bot"
-          width={28}
-          height={28}
+          width={42}
+          height={42}
           className="object-contain"
         />
       </button>
