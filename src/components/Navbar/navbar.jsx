@@ -6,8 +6,7 @@ import { gsap, Power2 } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import Image from "next/image";
-import logo from "../../assets/logo2.svg";
-import { X, Menu } from "lucide-react";
+import toggleIcon from "../../assets/hamburger.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -55,7 +54,7 @@ const Navbar = () => {
 					{ autoAlpha: 0, scale: 0.98, filter: "blur(6px)" },
 					{ autoAlpha: 1, scale: 1, filter: "blur(0px)", duration: 0.45 }
 				).fromTo(
-					linksRef.current.filter(Boolean), // Filter out null/undefined
+					linksRef.current.filter(Boolean),
 					{ x: -24, opacity: 0 },
 					{ x: 0, opacity: 1, duration: 0.7, stagger: 0.1 },
 					"<+0.1"
@@ -92,6 +91,7 @@ const Navbar = () => {
 
 	useLayoutEffect(() => {
 		const ctx = gsap.context(() => {
+			// Initial animation for heading letters
 			gsap.from(headingRef.current, {
 				x: -30,
 				opacity: 0,
@@ -100,8 +100,10 @@ const Navbar = () => {
 				ease: Power2.easeOut,
 			});
 
+			// Set initial state for logo
 			gsap.set(logoRef.current, { opacity: 0, scale: 0.9 });
 
+			// ScrollTrigger animation - hide letters and show logo on scroll
 			const trigger = ScrollTrigger.create({
 				trigger: logoRef.current,
 				start: "top top",
@@ -167,14 +169,21 @@ const Navbar = () => {
 	return (
 		<header className="fixed top-8 w-full z-[10000]">
 			<div className="max-w-8xl mx-auto flex items-center justify-between px-4 md:px-6 py-4 relative z-[10001]">
+				{/* Logo + Vyanwebs text with animation */}
 				<div className="flex items-center relative pl-7">
 					<div
 						ref={logoRef}
-						className="absolute left-5 top-1 hidden md:block opacity-0 scale-90 transition-all duration-300 z-10"
+						className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:block opacity-0 scale-90 transition-all duration-300 z-10"
 					>
-						<Image src={logo} alt="Vyanwebs Logo" height={40} width={40} />
+						<img
+							src="/logo.png"
+							alt="Vyanwebs Logo"
+							width={40}
+							height={40}
+							className="object-contain rounded-lg"
+						/>
 					</div>
-					<h1 className="text-2xl md:text-4xl font-bold text-white flex space-x-0.5">
+					<h1 className="text-2xl md:text-4xl font-bold text-white flex space-x-0.5 ml-0 md:ml-2">
 						{heading.map((letter, i) => (
 							<span
 								key={i}
@@ -187,6 +196,7 @@ const Navbar = () => {
 					</h1>
 				</div>
 
+				{/* Desktop nav buttons */}
 				<div className="hidden md:flex items-center pr-10 space-x-4 md:space-x-6 text-white text-base md:text-xl font-semibold">
 					<button
 						onClick={() => router.push("/contact")}
@@ -194,24 +204,44 @@ const Navbar = () => {
 					>
 						{"Let's Talk"}
 					</button>
+
+					{/* Toggle Button with Custom Image */}
 					<button
-						className="text-3xl md:text-4xl cursor-pointer"
 						onClick={toggleMenu}
+						className="relative w-6 h-6 md:w-8 md:h-8 flex items-center justify-center focus:outline-none transition-transform duration-300 hover:scale-110"
 						aria-label="Toggle menu"
 					>
-						{open ? <X /> : <Menu />}
+						<Image
+							src={toggleIcon}
+							alt="Menu Toggle"
+							width={24}
+							height={24}
+							className={`object-contain transition-all duration-300 brightness-0 invert ${open ? "rotate-90 scale-90" : "rotate-0 scale-100"
+								}`}
+							priority
+						/>
 					</button>
 				</div>
 
+				{/* Mobile menu toggle */}
 				<button
-					className="md:hidden w-10 h-10 rounded-full border-2 border-white text-white flex items-center justify-center transition duration-300"
 					onClick={toggleMenu}
+					className="md:hidden relative w-5 h-5 flex items-center justify-center focus:outline-none transition-transform duration-300 hover:scale-110"
 					aria-label="Toggle menu"
 				>
-					<span className="text-xl">{open ? <X /> : <Menu />}</span>
+					<Image
+						src={toggleIcon}
+						alt="Menu Toggle"
+						width={20}
+						height={20}
+						className={`object-contain transition-all duration-300 brightness-0 invert ${open ? "rotate-90 scale-90" : "rotate-0 scale-100"
+							}`}
+						priority
+					/>
 				</button>
 			</div>
 
+			{/* Full screen menu overlay */}
 			<div
 				ref={menuRef}
 				className="fixed inset-0 bg-black/90 backdrop-blur-md flex flex-col md:flex-row justify-between md:items-start z-[9998] opacity-0 pointer-events-none p-6 md:p-12"
@@ -229,27 +259,29 @@ const Navbar = () => {
 							>
 								{link.label}
 							</span>
+							{/* Underline effect on hover */}
+							<span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
 						</button>
 					))}
 				</nav>
 
 				<div className="absolute bottom-10 sm:bottom-6 right-6 text-left text-white text-sm sm:text-base md:text-lg max-w-[90%] sm:max-w-[85%] md:max-w-sm pointer-events-auto">
-					<div className="mb-4">
+					<div className="mb-8">
 						<a
 							href="tel:+919111721315"
-							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300"
+							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300 transition-colors"
 						>
 							📞 +91 9111721315
 						</a>
 						<a
 							href="mailto:hr@vyanwebs.com"
-							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300"
+							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300 transition-colors"
 						>
 							✉️ hr@vyanwebs.com
 						</a>
 						<a
 							href="mailto:info@vyanwebs.com"
-							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300"
+							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300 transition-colors"
 						>
 							✉️ info@vyanwebs.com
 						</a>
@@ -257,28 +289,34 @@ const Navbar = () => {
 							href="https://wa.me/918829796669"
 							target="_blank"
 							rel="noopener noreferrer"
-							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300"
+							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300 transition-colors"
 						>
 							💬 WhatsApp
 						</a>
-						<p>
-							<strong>N - Friends Colony, Ring Road</strong>
-							<br />
-							Bangali Square, Above the SBI Bank,
-							<br />
-							Indore, M.P. - 452001
-						</p>
 					</div>
-					<div>
-						<p>
-							<strong className="text-base md:text-lg">
-								2nd Floor, Corporate Park
-							</strong>
-							<br />
-							Goregaon East
-							<br />
-							Mumbai - 400063
-						</p>
+
+					<div className="space-y-6">
+						<div>
+							<p>
+								<strong>N - Friends Colony, Ring Road</strong>
+								<br />
+								Bangali Square, Above the SBI Bank,
+								<br />
+								Indore, M.P. - 452001
+							</p>
+						</div>
+
+						<div>
+							<p>
+								<strong className="text-base md:text-lg">
+									2nd Floor, Corporate Park
+								</strong>
+								<br />
+								Goregaon East
+								<br />
+								Mumbai - 400063
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>

@@ -16,39 +16,31 @@ const Industries = () => {
   const containerRef = useRef(null);
   const rowRefs = useRef([]);
   const iconRefs = useRef([]);
-
   const [industries] = useState(industriesSeed);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       rowRefs.current.forEach((row, i) => {
         if (!row) return;
-        gsap.set(row, { opacity: 0, y: 50 });
 
-        ScrollTrigger.create({
-          trigger: row,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-          onEnter: () => {
-            gsap.to(row, {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: "power3.out",
-              delay: i * 0.1,
-            });
-          },
-          onLeaveBack: () => {
-            gsap.to(row, {
-              opacity: 0,
-              y: 50,
-              duration: 0.5,
-              ease: "power2.in",
-            });
-          },
-        });
+        gsap.fromTo(
+          row,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
+            delay: i * 0.15,
+            scrollTrigger: {
+              trigger: row,
+              start: "top 95%",
+              toggleActions: "play none none reverse",
+            },
+          }
+        );
       });
-    });
+    }, containerRef);
 
     return () => ctx.revert();
   }, []);
@@ -64,12 +56,7 @@ const Industries = () => {
         gsap.fromTo(
           icon,
           { x: 20, opacity: 0, color: "#3b82f6" },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.3,
-            ease: "power2.out",
-          }
+          { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
         );
       },
     });
@@ -86,12 +73,7 @@ const Industries = () => {
         gsap.fromTo(
           icon,
           { x: 20, opacity: 0, color: "#9ca3af" },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.3,
-            ease: "power2.out",
-          }
+          { x: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
         );
       },
     });
@@ -115,23 +97,12 @@ const Industries = () => {
             >
               {row.map((industry, idx) => {
                 const iconIndex = rowIndex * 3 + idx;
-
                 return (
                   <div
                     key={industry.id}
                     onMouseEnter={() => handleMouseEnter(iconIndex)}
                     onMouseLeave={() => handleMouseLeave(iconIndex)}
-                    className="
-                      group cursor-pointer 
-                      bg-white/80 backdrop-blur-lg 
-                      px-10 py-12 rounded-2xl 
-                      shadow-xl
-                      border border-transparent
-                      transition-all duration-500
-                      hover:-translate-y-2
-                      hover:border-blue-500/40
-                      hover:shadow-blue-300/40 hover:shadow-2xl
-                    "
+                    className="group cursor-pointer bg-white/80 backdrop-blur-lg px-10 py-12 rounded-2xl shadow-xl border border-transparent transition-all duration-500 hover:-translate-y-2 hover:border-blue-500/40 hover:shadow-blue-300/40 hover:shadow-2xl"
                   >
                     <div className="flex items-center justify-between">
                       <span
