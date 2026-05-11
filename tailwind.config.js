@@ -28,6 +28,7 @@ export default {
       animation: {
         float: "float 6s ease-in-out infinite",
         blob: "blob 8s ease-in-out infinite",
+        'spin-slow': 'spin 3s linear infinite',
       },
       zIndex: {
         "-1": "-1",
