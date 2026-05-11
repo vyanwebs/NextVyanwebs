@@ -1,4 +1,4 @@
-// File: C:\Users\amanw\OneDrive\Pictures\Desktop\vyan\NextVyanwebs\app\contact\terms\page.jsx
+// File: /home/ubuntu/NextVyanwebs/app/contact/terms/page.jsx
 import * as entry from '../../../../../app/contact/terms/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 
