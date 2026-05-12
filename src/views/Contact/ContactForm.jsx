@@ -109,9 +109,7 @@ export default function App() {
           <p className="mb-2">Schedule a free consultation at:</p>
 
           <div className="flex flex-wrap gap-4 mb-3">
-            <a href="mailto:hr@vyanwebs.com" className="text-blue-500">
-              ✉️ hr@vyanwebs.com
-            </a>
+          
             <a href="mailto:info@vyanwebs.com" className="text-blue-500">
               info@vyanwebs.com
             </a>

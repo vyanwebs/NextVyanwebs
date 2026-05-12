@@ -22,3 +22,11 @@
   animation: glitter 1.8s infinite ease-in-out;
   border-radius: 1rem;
 }
+@keyframes meshMove {
+  0% { transform: translateX(-30%); }
+  100% { transform: translateX(30%); }
+}
+
+.animate-meshMove {
+  animation: meshMove 12s linear infinite alternate;
+}

@@ -14,6 +14,7 @@ export default function HeroSection() {
   const subTextRef = useRef(null);
   const buttonRef = useRef(null);
   const marqueeRef = useRef(null);
+  const bottomBorderRef = useRef(null);
   const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
 
@@ -64,6 +65,8 @@ export default function HeroSection() {
         y: 60,
       });
 
+      gsap.set(bottomBorderRef.current, { opacity: 0, y: 20 });
+
       ScrollTrigger.create({
         trigger: sectionRef.current,
         start: "top 80%",
@@ -72,10 +75,12 @@ export default function HeroSection() {
           gsap.timeline()
             .to(textRef.current, { opacity: 1, y: 0, duration: 1.4, ease: "power3.out" })
             .to(subTextRef.current, { opacity: 1, y: 0, duration: 1.4, ease: "power3.out" }, "-=0.9")
-            .to(buttonRef.current, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }, "-=0.9");
+            .to(buttonRef.current, { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }, "-=0.9")
+            .to(bottomBorderRef.current, { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }, "-=0.5");
         },
         onLeaveBack: () => {
           gsap.set([textRef.current, subTextRef.current, buttonRef.current], { opacity: 0, y: 60 });
+          gsap.set(bottomBorderRef.current, { opacity: 0, y: 20 });
         },
       });
     }, sectionRef);
@@ -183,13 +188,221 @@ export default function HeroSection() {
             <span>Contact Us</span>
           </button>
 
-          {/* WhatsApp Button */}
           <button
             className="border border-white/20 hover:border-blue-400/60 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 inline-flex items-center gap-2 text-sm sm:text-base backdrop-blur-sm hover:bg-white/5"
             onClick={() => window.open('https://wa.me/919111721315', '_blank')}
           >
             <span>WhatsApp</span>
           </button>
+        </div>
+      </div>
+
+      {/* Bottom Border - Rich Network Lines and Nodes */}
+      <div
+        ref={bottomBorderRef}
+        className="absolute bottom-0 left-0 w-full z-20 pointer-events-none opacity-0"
+      >
+        <div className="relative w-full h-[140px] bg-gradient-to-b from-transparent via-[#0a0a0f] to-[#0a0a0f] overflow-hidden">
+
+          {/* Network SVG - Rich lines and nodes */}
+          <svg
+            className="absolute inset-0 w-full h-full"
+            viewBox="0 0 1920 140"
+            preserveAspectRatio="none"
+          >
+            <defs>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="3" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+              <filter id="glowStrong">
+                <feGaussianBlur stdDeviation="5" result="coloredBlur" />
+                <feMerge>
+                  <feMergeNode in="coloredBlur" />
+                  <feMergeNode in="SourceGraphic" />
+                </feMerge>
+              </filter>
+            </defs>
+
+            {/* Layer 1 - Primary Network Lines */}
+            <g stroke="#3b82f6" strokeWidth="1.2" fill="none">
+              <line x1="3%" y1="50" x2="12%" y2="80" opacity="0.5">
+                <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3s" repeatCount="indefinite" />
+              </line>
+              <line x1="12%" y1="80" x2="20%" y2="45" opacity="0.5">
+                <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.5s" repeatCount="indefinite" />
+              </line>
+              <line x1="20%" y1="45" x2="30%" y2="75" opacity="0.5">
+                <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3.2s" repeatCount="indefinite" />
+              </line>
+              <line x1="30%" y1="75" x2="38%" y2="50" opacity="0.5">
+                <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.8s" repeatCount="indefinite" />
+              </line>
+              <line x1="38%" y1="50" x2="48%" y2="85" opacity="0.5">
+                <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.5s" repeatCount="indefinite" />
+              </line>
+              <line x1="48%" y1="85" x2="58%" y2="55" opacity="0.5">
+                <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.2s" repeatCount="indefinite" />
+              </line>
+              <line x1="58%" y1="55" x2="68%" y2="80" opacity="0.5">
+                <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite" />
+              </line>
+              <line x1="68%" y1="80" x2="78%" y2="45" opacity="0.5">
+                <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.6s" repeatCount="indefinite" />
+              </line>
+              <line x1="78%" y1="45" x2="88%" y2="70" opacity="0.5">
+                <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.3s" repeatCount="indefinite" />
+              </line>
+              <line x1="88%" y1="70" x2="97%" y2="50" opacity="0.5">
+                <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.9s" repeatCount="indefinite" />
+              </line>
+            </g>
+
+            {/* Layer 2 - Secondary Network Lines (cyan) */}
+            <g stroke="#06b6d4" strokeWidth="0.8" fill="none">
+              <line x1="7%" y1="65" x2="18%" y2="90" opacity="0.4">
+                <animate attributeName="opacity" values="0.2;0.6;0.2" dur="4s" repeatCount="indefinite" />
+              </line>
+              <line x1="18%" y1="90" x2="25%" y2="60" opacity="0.4">
+                <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.2s" repeatCount="indefinite" />
+              </line>
+              <line x1="25%" y1="60" x2="35%" y2="85" opacity="0.4">
+                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3.8s" repeatCount="indefinite" />
+              </line>
+              <line x1="35%" y1="85" x2="45%" y2="55" opacity="0.4">
+                <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.7s" repeatCount="indefinite" />
+              </line>
+              <line x1="45%" y1="55" x2="55%" y2="80" opacity="0.4">
+                <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3.4s" repeatCount="indefinite" />
+              </line>
+              <line x1="55%" y1="80" x2="65%" y2="50" opacity="0.4">
+                <animate attributeName="opacity" values="0.2;0.7;0.2" dur="2.5s" repeatCount="indefinite" />
+              </line>
+              <line x1="65%" y1="50" x2="75%" y2="75" opacity="0.4">
+                <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3.1s" repeatCount="indefinite" />
+              </line>
+              <line x1="75%" y1="75" x2="85%" y2="90" opacity="0.4">
+                <animate attributeName="opacity" values="0.3;0.6;0.3" dur="2.8s" repeatCount="indefinite" />
+              </line>
+              <line x1="85%" y1="90" x2="93%" y2="65" opacity="0.4">
+                <animate attributeName="opacity" values="0.2;0.5;0.2" dur="3.6s" repeatCount="indefinite" />
+              </line>
+            </g>
+
+            {/* Layer 3 - Horizontal backbone lines */}
+            <g stroke="#2563eb" strokeWidth="0.5" fill="none" opacity="0.3">
+              <line x1="0%" y1="35" x2="100%" y2="35">
+                <animate attributeName="opacity" values="0.2;0.4;0.2" dur="5s" repeatCount="indefinite" />
+              </line>
+              <line x1="0%" y1="60" x2="100%" y2="60">
+                <animate attributeName="opacity" values="0.3;0.5;0.3" dur="4.5s" repeatCount="indefinite" />
+              </line>
+              <line x1="0%" y1="85" x2="100%" y2="85">
+                <animate attributeName="opacity" values="0.2;0.4;0.2" dur="5.5s" repeatCount="indefinite" />
+              </line>
+              <line x1="0%" y1="110" x2="100%" y2="110">
+                <animate attributeName="opacity" values="0.1;0.3;0.1" dur="6s" repeatCount="indefinite" />
+              </line>
+            </g>
+
+            {/* Layer 4 - Vertical connector lines */}
+            <g stroke="#0ea5e9" strokeWidth="0.5" fill="none" opacity="0.25">
+              <line x1="12%" y1="80" x2="12%" y2="35" />
+              <line x1="25%" y1="85" x2="25%" y2="60" />
+              <line x1="38%" y1="50" x2="38%" y2="35" />
+              <line x1="55%" y1="80" x2="55%" y2="55" />
+              <line x1="68%" y1="45" x2="68%" y2="80" />
+              <line x1="82%" y1="70" x2="82%" y2="90" />
+              <line x1="93%" y1="65" x2="93%" y2="35" />
+            </g>
+
+            {/* Layer 5 - Primary Nodes (Blue) */}
+            <g fill="#3b82f6" filter="url(#glow)">
+              <circle cx="3%" cy="50" r="3.5">
+                <animate attributeName="opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2.5;4.5;2.5" dur="2s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="20%" cy="45" r="3">
+                <animate attributeName="opacity" values="0.5;1;0.5" dur="2.3s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2;4;2" dur="2.3s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="38%" cy="50" r="3.5">
+                <animate attributeName="opacity" values="0.3;0.9;0.3" dur="1.8s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2.5;4.5;2.5" dur="1.8s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="58%" cy="55" r="3">
+                <animate attributeName="opacity" values="0.6;1;0.6" dur="2.5s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2;4;2" dur="2.5s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="78%" cy="45" r="3.5">
+                <animate attributeName="opacity" values="0.4;1;0.4" dur="2.1s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2.5;4.5;2.5" dur="2.1s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="97%" cy="50" r="3">
+                <animate attributeName="opacity" values="0.5;0.9;0.5" dur="2.4s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2;4;2" dur="2.4s" repeatCount="indefinite" />
+              </circle>
+            </g>
+
+            {/* Layer 6 - Secondary Nodes (Cyan) */}
+            <g fill="#06b6d4" filter="url(#glow)">
+              <circle cx="12%" cy="80" r="2.5">
+                <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.8s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2;3.5;2" dur="2.8s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="30%" cy="75" r="3">
+                <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.2s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2;4;2" dur="2.2s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="48%" cy="85" r="2.5">
+                <animate attributeName="opacity" values="0.5;1;0.5" dur="2.6s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2;3.5;2" dur="2.6s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="68%" cy="80" r="3">
+                <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2;4;2" dur="2s" repeatCount="indefinite" />
+              </circle>
+              <circle cx="88%" cy="70" r="2.5">
+                <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.9s" repeatCount="indefinite" />
+                <animate attributeName="r" values="2;3.5;2" dur="2.9s" repeatCount="indefinite" />
+              </circle>
+            </g>
+
+            {/* Layer 7 - Small decorative nodes */}
+            <g fill="#60a5fa" filter="url(#glowStrong)" opacity="0.7">
+              {[5, 7, 9, 11, 13, 15, 17, 19, 21, 23].map((pos) => (
+                <circle key={pos} cx={`${pos}%`} cy="70" r="1.5">
+                  <animate attributeName="opacity" values="0.2;0.6;0.2" dur={`${2 + pos * 0.1}s`} repeatCount="indefinite" />
+                </circle>
+              ))}
+              {[6, 8, 10, 12, 14, 16, 18, 20, 22, 24].map((pos) => (
+                <circle key={pos} cx={`${pos}%`} cy="50" r="1.5">
+                  <animate attributeName="opacity" values="0.3;0.7;0.3" dur={`${2.5 + pos * 0.1}s`} repeatCount="indefinite" />
+                </circle>
+              ))}
+            </g>
+            
+
+            {/* Center hub - large node */}
+            <circle cx="50%" cy="65" r="5" fill="#3b82f6" filter="url(#glowStrong)" opacity="0.8">
+              <animate attributeName="opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
+              <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite" />
+            </circle>
+
+            {/* Inner glow for center hub */}
+            <circle cx="50%" cy="65" r="8" fill="none" stroke="#3b82f6" strokeWidth="0.5" opacity="0.3">
+              <animate attributeName="r" values="7;10;7" dur="2s" repeatCount="indefinite" />
+              <animate attributeName="opacity" values="0.2;0.4;0.2" dur="2s" repeatCount="indefinite" />
+            </circle>
+          </svg>
+
+          {/* Top border line with gradient */}
+
+          {/* Subtle bottom glow */}
+          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500/20 to-transparent" />
         </div>
       </div>
     </section>

@@ -31,9 +31,9 @@ const Home = () => {
           <div className="flex flex-col items-center space-y-6">
 
             {/* Wrapper spins — logo + ring dono saath */}
-            <div className="relative w-20 h-20 md:w-24 md:h-24 animate-spin">
+            <div className="relative w-18 h-18 md:w-20 md:h-20 animate-spin">
               {/* Ring */}
-              <div className="absolute inset-[-10px] rounded-full border-4 border-blue-500 border-t-transparent" />
+              <div className="absolute inset-[-10px] rounded-full border-1 border-blue-300 border-t-transparent" />
               {/* Logo */}
               <img
                 src="/logo.png"

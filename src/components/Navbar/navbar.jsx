@@ -18,13 +18,17 @@ const Navbar = () => {
 	const logoRef = useRef(null);
 	const pathname = usePathname();
 	const router = useRouter();
-	const heading = "Vyanwebs".split("");
+	const heading = "VYANWEBS".split("");
 
 	const toggleMenu = () => setOpen((prev) => !prev);
 
 	const handleNavClick = (path) => {
 		router.push(path);
 		setOpen(false);
+	};
+
+	const handleHomeClick = () => {
+		router.push("/");
 	};
 
 	useEffect(() => {
@@ -169,21 +173,25 @@ const Navbar = () => {
 	return (
 		<header className="fixed top-8 w-full z-[10000]">
 			<div className="max-w-8xl mx-auto flex items-center justify-between px-4 md:px-6 py-4 relative z-[10001]">
-				{/* Logo + Vyanwebs text with animation */}
-				<div className="flex items-center relative pl-7">
+				{/* Logo + Vyanwebs text with animation - CLICKABLE - NOW INLINE */}
+				<button
+					onClick={handleHomeClick}
+					className="flex items-center gap-2 cursor-pointer group focus:outline-none"
+					aria-label="Go to home"
+				>
 					<div
 						ref={logoRef}
-						className="absolute left-0 top-1/2 -translate-y-1/2 hidden md:block opacity-0 scale-90 transition-all duration-300 z-10"
+						className="hidden md:block opacity-0 scale-90 transition-all duration-300"
 					>
 						<img
 							src="/logo.png"
 							alt="Vyanwebs Logo"
-							width={40}
-							height={40}
-							className="object-contain rounded-lg"
+							width={50}
+							height={50}
+							className="object-contain rounded-lg transition-transform duration-300 group-hover:scale-110"
 						/>
 					</div>
-					<h1 className="text-2xl md:text-4xl font-bold text-white flex space-x-0.5 ml-0 md:ml-2">
+					<h1 className="text-2xl md:text-4xl font-bold text-white flex space-x-0.5 transition-transform duration-300 group-hover:scale-105">
 						{heading.map((letter, i) => (
 							<span
 								key={i}
@@ -194,7 +202,7 @@ const Navbar = () => {
 							</span>
 						))}
 					</h1>
-				</div>
+				</button>
 
 				{/* Desktop nav buttons */}
 				<div className="hidden md:flex items-center pr-10 space-x-4 md:space-x-6 text-white text-base md:text-xl font-semibold">
@@ -251,7 +259,7 @@ const Navbar = () => {
 						<button
 							key={link.label}
 							onClick={() => handleNavClick(link.path)}
-							className="cursor-pointer group relative text-left transition-transform duration-300 ease-out will-change-transform hover:translate-x-3 md:hover:translate-x-5"
+							className="cursor-pointer group text-left transition-transform duration-300 ease-out will-change-transform hover:translate-x-3 md:hover:translate-x-5"
 						>
 							<span
 								ref={(el) => (linksRef.current[i] = el)}
@@ -259,8 +267,6 @@ const Navbar = () => {
 							>
 								{link.label}
 							</span>
-							{/* Underline effect on hover */}
-							<span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full"></span>
 						</button>
 					))}
 				</nav>
@@ -273,12 +279,7 @@ const Navbar = () => {
 						>
 							📞 +91 9111721315
 						</a>
-						<a
-							href="mailto:hr@vyanwebs.com"
-							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300 transition-colors"
-						>
-							✉️ hr@vyanwebs.com
-						</a>
+
 						<a
 							href="mailto:info@vyanwebs.com"
 							className="mb-2 block underline decoration-blue-500 underline-offset-8 text-blue-400 hover:text-blue-300 transition-colors"
