@@ -18,10 +18,10 @@ const SuccessSnapshot = () => {
 
   // ✅ HARD-CODED VALUES (Replace with real numbers)
   const [stats] = useState([
-    { number: 3, suffix: "+", label: "Years in\nBusiness" },
-    { number: 50, suffix: "+", label: "Projects\nDelivered Globally" },
+    { number: 6, suffix: "+", label: "Years in\nBusiness" },
+    { number: 95, suffix: "+", label: "Projects\nDelivered Globally" },
     { number: 95, suffix: "%", label: "Global Client\nRetention Rate" },
-    { number: 30, suffix: "+", label: "Team\nMembers" },
+    { number: 35, suffix: "+", label: "Team\nMembers" },
   ]);
 
   // Count-up animation

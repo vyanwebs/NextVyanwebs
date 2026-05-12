@@ -28,24 +28,42 @@ const Home = () => {
     <>
       {isLoading ? (
         <div className="fixed top-0 left-0 w-full h-screen flex items-center justify-center bg-[#0a0a0f]">
-          <div className="flex flex-col items-center space-y-6">
-
-            {/* Wrapper spins — logo + ring dono saath */}
-            <div className="relative w-18 h-18 md:w-20 md:h-20 animate-spin">
+          <div className="flex flex-col items-center">
+            {/* Wrapper with balanced sizing */}
+            <div
+              className="relative animate-spin"
+              style={{
+                width: '48px',
+                height: '48px',
+                '@media (min-width: 640px)': { width: '56px', height: '56px' },
+                '@media (min-width: 768px)': { width: '64px', height: '64px' },
+                '@media (min-width: 1024px)': { width: '72px', height: '72px' }
+              }}
+            >
               {/* Ring */}
-              <div className="absolute inset-[-10px] rounded-full border-1 border-blue-300 border-t-transparent" />
+              <div
+                className="absolute rounded-full border-2 border-blue-300 border-t-transparent"
+                style={{
+                  inset: '-5px',
+                  '@media (min-width: 640px)': { inset: '-6px' },
+                  '@media (min-width: 768px)': { inset: '-7px' },
+                  '@media (min-width: 1024px)': { inset: '-8px' }
+                }}
+              />
               {/* Logo */}
               <img
                 src="/logo.png"
                 alt="Vyanwebs Logo"
-                className="w-full h-full object-contain rounded-full z-10"
+                style={{
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'contain',
+                  borderRadius: '9999px',
+                  position: 'relative',
+                  zIndex: 10
+                }}
               />
             </div>
-
-        
-
-          
-
           </div>
         </div>
       ) : (

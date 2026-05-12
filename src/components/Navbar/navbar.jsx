@@ -259,7 +259,7 @@ const Navbar = () => {
 						<button
 							key={link.label}
 							onClick={() => handleNavClick(link.path)}
-							className="cursor-pointer group text-left transition-transform duration-300 ease-out will-change-transform hover:translate-x-3 md:hover:translate-x-5"
+							className="cursor-pointer group text-left transition-all duration-500 ease-out will-change-transform hover:translate-x-8 md:hover:translate-x-12"
 						>
 							<span
 								ref={(el) => (linksRef.current[i] = el)}
