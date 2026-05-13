@@ -111,6 +111,93 @@ GROUND_TRUTH_FACTS = [
     ),
 ]
 
+# Fixed answers for short factual queries (do not hallucinate)
+FIXED_ANSWERS = {
+    "project_count": {
+        "keywords": [
+            "project count",
+            "how many projects",
+            "projects completed",
+            "projects delivered",
+        ],
+        "answer": "We have successfully delivered 500+ projects to clients across industries.",
+    },
+    "founder": {
+        "keywords": ["founder", "who founded", "who is the founder", "founder's name"],
+        "answer": "I don't have the founder's personal details. Please contact info@vyanwebs.com for official details.",
+    },
+    "owner": {
+        "keywords": ["owner", "company owner", "who owns vyanwebs"],
+        "answer": "For ownership information, please contact info@vyanwebs.com.",
+    },
+    "pricing": {
+        "keywords": ["pricing", "price", "cost", "quote", "estimate"],
+        "answer": (
+            "Our pricing depends on project features, complexity, and timeline. "
+            "Please share: (1) key features, (2) target platforms (web/mobile), "
+            "(3) expected timeline, (4) any third-party integrations, and (5) your budget range. "
+            "With these details we can provide an accurate estimate."
+        ),
+    },
+    "office": {
+        "keywords": [
+            "office",
+            "address",
+            "location",
+            "where are you located",
+            "office address",
+        ],
+        "answer": "Our main office is in India. For the exact address or to schedule a visit, please contact info@vyanwebs.com.",
+    },
+    "contact": {
+        "keywords": ["contact", "reach", "call", "email", "phone", "whatsapp"],
+        "answer": "You can contact us at info@vyanwebs.com, hr@vyanwebs.com, or +91 9111721315.",
+    },
+    "technologies": {
+        "keywords": [
+            "technologies",
+            "tech stack",
+            "stack",
+            "technologies you use",
+            "what tech",
+        ],
+        "answer": "We use React, Next.js, Node.js, Express, MongoDB, FastAPI, Python, and Tailwind CSS among other modern tools.",
+    },
+}
+
+# RAG-related keywords — queries that should prefer retrieval from site docs
+RAG_KEYWORDS = [
+    "faq",
+    "faqs",
+    "frequently asked",
+    "blog",
+    "blogs",
+    "detailed services",
+    "service details",
+    "portfolio explanation",
+    "portfolio details",
+    "feature",
+    "features",
+    "feature explanation",
+    "case study details",
+]
+
+
+def is_rag_query(message: str) -> bool:
+    lower_msg = message.lower()
+    return any(_contains_word(lower_msg, kw) for kw in RAG_KEYWORDS)
+
+
+def retrieve_rag_context(message: str) -> list[str]:
+    """Stub for retrieval — returns a list of relevant document snippets.
+
+    TODO: Implement actual retriever that indexes site/blogs/FAQs and returns
+    ranked passages. For now this acts as a placeholder to be extended.
+    """
+    # Placeholder: no documents indexed yet
+    return []
+
+
 # Prompt templates
 PRICING_PROMPT = (
     "Our pricing depends on project features, complexity, and timeline. "
@@ -412,6 +499,22 @@ def is_unrelated_question(message: str) -> bool:
         _contains_word(lower_msg, keyword) for keyword in EDUCATIONAL_KEYWORDS
     )
 
+    # Special-case: career/contact related questions should be allowed even if
+    # the user didn't mention "Vyanwebs" explicitly (e.g., "How do I apply for a job?")
+    career_contact_keywords = [
+        "career",
+        "careers",
+        "job",
+        "jobs",
+        "hiring",
+        "resume",
+        "apply",
+        "application",
+        "hr",
+    ]
+    if any(_contains_word(lower_msg, kw) for kw in career_contact_keywords):
+        return False
+
     if has_educational_keyword:
         # If it's an educational question, ONLY ALLOW if explicitly about Vyanwebs
         if not has_vyanwebs_keyword and not has_vyanwebs_tech:
@@ -435,6 +538,11 @@ def answer_from_ground_truth(
     message: str, company_founded: str | None = None
 ) -> str | None:
     lower_msg = message.lower()
+
+    # Check fixed answers first (highest priority)
+    for key, entry in FIXED_ANSWERS.items():
+        if any(_contains_word(lower_msg, kw) for kw in entry.get("keywords", [])):
+            return entry.get("answer")
 
     # If the user asks specifically when the company was founded/established,
     # prefer returning the explicit founding info if available; otherwise
@@ -659,6 +767,20 @@ def generate_gemini_reply(
     if grounded_answer:
         return grounded_answer
 
+    # If this looks like a RAG query, attempt to retrieve supporting documents
+    rag_docs = []
+    if is_rag_query(message):
+        rag_docs = retrieve_rag_context(message)
+        # If we found relevant docs, include them in the system prompt to ground the model
+        if rag_docs:
+            rag_text = "\n\n--- Relevant Documents ---\n" + "\n\n".join(rag_docs)
+            # prepend documents to system prompt for grounding
+            augmented_system = SYSTEM_PROMPT + "\n" + rag_text
+        else:
+            augmented_system = SYSTEM_PROMPT
+    else:
+        augmented_system = SYSTEM_PROMPT
+
     if not should_use_model(message):
         return build_fallback_reply(message, company_founded=settings.company_founded)
 
@@ -677,7 +799,7 @@ def generate_gemini_reply(
                 messages=[
                     {
                         "role": "system",
-                        "content": SYSTEM_PROMPT,
+                        "content": augmented_system,
                     },
                     {
                         "role": "user",
@@ -726,6 +848,18 @@ def stream_gemini_reply(message: str, settings: Settings, user_name: str | None 
         yield "I can only assist with Vyanwebs-related services and company information. Please contact our team at +91 9111721315 or email info@vyanwebs.com."
         return
 
+    # If this looks like a RAG query, attempt to retrieve supporting documents
+    rag_docs = []
+    if is_rag_query(message):
+        rag_docs = retrieve_rag_context(message)
+        if rag_docs:
+            rag_text = "\n\n--- Relevant Documents ---\n" + "\n\n".join(rag_docs)
+            augmented_system = SYSTEM_PROMPT + "\n" + rag_text
+        else:
+            augmented_system = SYSTEM_PROMPT
+    else:
+        augmented_system = SYSTEM_PROMPT
+
     max_retries = 3
     retry_delay = 1
 
@@ -737,7 +871,7 @@ def stream_gemini_reply(message: str, settings: Settings, user_name: str | None 
                 messages=[
                     {
                         "role": "system",
-                        "content": SYSTEM_PROMPT,
+                        "content": augmented_system,
                     },
                     {
                         "role": "user",
