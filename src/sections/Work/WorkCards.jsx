@@ -17,6 +17,8 @@ const WorkCards = ({ limit, projects: externalProjects }) => {
   const [workData, setWorkData] = useState([]);
   const [cardsWithOrientation, setCardsWithOrientation] = useState([]);
   const cardRefs = useRef([]);
+  const imageRefs = useRef([]);
+  const contentRefs = useRef([]);
   const router = useRouter();
 
   useEffect(() => {
@@ -46,19 +48,73 @@ const WorkCards = ({ limit, projects: externalProjects }) => {
     const ctx = gsap.context(() => {
       cardRefs.current.forEach((card, i) => {
         if (!card) return;
+
+        // Animate the card container
         gsap.fromTo(
           card,
-          { opacity: 0, x: i % 2 === 0 ? -80 : 80, y: 30, filter: "blur(4px)" },
           {
-            opacity: 1, x: 0, y: 0, filter: "blur(0px)",
-            duration: 1.0, ease: "power3.out", delay: (i % 2) * 0.15,
+            opacity: 0,
+            y: 150,
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.8,
+            ease: "power3.out",
             scrollTrigger: {
               trigger: card,
-              start: "top 90%",
+              start: "top 85%",
               toggleActions: "play none none reverse",
             },
           }
         );
+
+        // Animate the image - scale from bottom to top
+        if (imageRefs.current[i]) {
+          gsap.fromTo(
+            imageRefs.current[i],
+            {
+              scaleY: 0,
+              transformOrigin: "top center",
+              opacity: 0,
+            },
+            {
+              scaleY: 1,
+              opacity: 1,
+              duration: 0.7,
+              ease: "power2.out",
+              delay: i * 0.1,
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          );
+        }
+
+        // Animate the content from bottom
+        if (contentRefs.current[i]) {
+          gsap.fromTo(
+            contentRefs.current[i],
+            {
+              y: 80,
+              opacity: 0,
+            },
+            {
+              y: 0,
+              opacity: 1,
+              duration: 0.6,
+              ease: "back.out(0.7)",
+              delay: i * 0.1 + 0.3,
+              scrollTrigger: {
+                trigger: card,
+                start: "top 85%",
+                toggleActions: "play none none reverse",
+              },
+            }
+          );
+        }
       });
     });
     return () => ctx.revert();
@@ -80,8 +136,12 @@ const WorkCards = ({ limit, projects: externalProjects }) => {
             onClick={() => router.push(`/work/${project.slug}`)}
           >
 
-            {/* ── BG image left half ── */}
-            <div className="absolute inset-0 w-full h-full">
+            {/* ── BG image container with reveal animation ── */}
+            <div
+              ref={(el) => (imageRefs.current[index] = el)}
+              className="absolute inset-0 w-full h-full overflow-hidden"
+              style={{ transformOrigin: "top center" }}
+            >
               <Image
                 src={project.mainImg || "/fallback.png"}
                 alt={project.title}
@@ -111,7 +171,6 @@ const WorkCards = ({ limit, projects: externalProjects }) => {
                   right: "10%",
                   transform: "translateY(25%)",
                 }}
-              // hover handled via CSS group below
               >
                 <div
                   className="
@@ -180,8 +239,11 @@ const WorkCards = ({ limit, projects: externalProjects }) => {
               </div>
             )}
 
-            {/* ── Card info pinned bottom-left ── */}
-            <div className="absolute bottom-0 left-0 right-0 z-20 p-5">
+            {/* ── Card info pinned bottom-left with animation ── */}
+            <div
+              ref={(el) => (contentRefs.current[index] = el)}
+              className="absolute bottom-0 left-0 right-0 z-20 p-5"
+            >
               <p className="text-xs uppercase tracking-widest text-gray-300 mb-1 font-medium">
                 {project.subTitle || project.subtitle || ""}
               </p>

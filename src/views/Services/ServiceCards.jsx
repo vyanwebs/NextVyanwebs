@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowRight } from "lucide-react";
@@ -13,7 +14,7 @@ const ServiceCards = () => {
   const cardsRef = useRef([]);
 
   useEffect(() => {
-    let ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
       cardsRef.current.forEach((card) => {
         if (!card) return;
         const img = card.querySelector("img");
@@ -40,17 +41,19 @@ const ServiceCards = () => {
       <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
         {ourServiceSeed.map((service, index) => (
           <div
-            key={service._id || index}
+            key={index}
             ref={(el) => (cardsRef.current[index] = el)}
             className="flex flex-col justify-between h-full min-h-[400px] sm:min-h-[500px] lg:min-h-[600px] bg-gray-800 p-6 shadow-lg hover:bg-[#2d2d2d] transition-all duration-300 group"
           >
             {/* IMAGE */}
-            <div className="flex justify-center items-center grow mb-4">
-              <img
-                loading="lazy"
-                className="w-full h-full max-h-60 sm:max-h-72 object-contain"
+            <div className="relative w-full grow mb-4 max-h-60 sm:max-h-72 overflow-hidden">
+              <Image
                 src={service.img}
                 alt={service.name}
+                fill
+                className="object-cover"
+                sizes="(max-width: 640px) 100vw, 50vw"
+                loading="lazy"
               />
             </div>
 
@@ -59,7 +62,7 @@ const ServiceCards = () => {
               <h5 className="text-white font-bold uppercase text-lg mb-2">
                 {service.name}
               </h5>
-              <h6
+              <p
                 className="text-white text-sm sm:text-base leading-relaxed overflow-hidden"
                 style={{
                   display: "-webkit-box",
@@ -68,7 +71,7 @@ const ServiceCards = () => {
                 }}
               >
                 {service.des}
-              </h6>
+              </p>
             </div>
 
             {/* BUTTON */}

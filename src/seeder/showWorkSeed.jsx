@@ -76,6 +76,44 @@ import supper7 from "../assets/Our Website Images/supper/supper7.png";
 import supper8 from "../assets/Our Website Images/supper/supper8.png";
 import supper9 from "../assets/Our Website Images/supper/supper9.png";
 
+import vyanstore1 from "../assets/Our Website Images/vyanstore/vyanstore.png";
+import vyanstore2 from "../assets/Our Website Images/vyanstore/vyanstore1.png";
+import vyanstore3 from "../assets/Our Website Images/vyanstore/vyanstore2.png";
+import vyanstore4 from "../assets/Our Website Images/vyanstore/vyanstore3.png";
+import vyanstore5 from "../assets/Our Website Images/vyanstore/vyanstore4.png";
+import vyanstore6 from "../assets/Our Website Images/vyanstore/lap.png";
+import vyanstore7 from "../assets/Our Website Images/vyanstore/mob1.png";
+import vyanstore8 from "../assets/Our Website Images/vyanstore/mob2.png";
+
+import dncraft1 from "../assets/Our Website Images/dncraft/dncraftbg.png";
+import dncraft2 from "../assets/Our Website Images/dncraft/dncraft1.png";
+import dncraft3 from "../assets/Our Website Images/dncraft/dncraft2.png";
+import dncraft4 from "../assets/Our Website Images/dncraft/dncraft3.png";
+import dncraft5 from "../assets/Our Website Images/dncraft/mob1.png";
+import dncraft6 from "../assets/Our Website Images/dncraft/mob2.png";
+import dncraft7 from "../assets/Our Website Images/dncraft/lap.png";
+
+import vinsta1 from "../assets/Our Website Images/vinsta/vinsta.jpg";
+import vinsta2 from "../assets/Our Website Images/vinsta/vinsta1.jpeg";
+import vinsta3 from "../assets/Our Website Images/vinsta/vinsta2.png";
+import vinsta4 from "../assets/Our Website Images/vinsta/vinsta3.jpg";
+import vinsta5 from "../assets/Our Website Images/vinsta/vinsta4.jpg";
+import vinsta6 from "../assets/Our Website Images/vinsta/vinsta5.jpg";
+import vinsta7 from "../assets/Our Website Images/vinsta/vinsta6.jpg";
+import vinsta8 from "../assets/Our Website Images/vinsta/vinsta7.jpg";
+import vinsta9 from "../assets/Our Website Images/vinsta/vinsta8.jpg";
+
+import maya1 from "../assets/Our Website Images/mayaconstruction/maya1.png";
+import maya2 from "../assets/Our Website Images/mayaconstruction/maya2.png";
+import maya3 from "../assets/Our Website Images/mayaconstruction/maya3.png";
+import maya4 from "../assets/Our Website Images/mayaconstruction/lap.png";
+import maya5 from "../assets/Our Website Images/mayaconstruction/mob1.png";
+import maya6 from "../assets/Our Website Images/mayaconstruction/mob2.png";
+import maya7 from "../assets/Our Website Images/mayaconstruction/maya4.png";
+import maya8 from "../assets/Our Website Images/mayaconstruction/mayabg.png";
+import maya9 from "../assets/Our Website Images/mayaconstruction/maya5.png";
+
+
 export const showWorkSeeder = [
   // ===============================================================
   // 1. AMS PROJECT
@@ -86,7 +124,7 @@ export const showWorkSeeder = [
     subTitle: "Web + Mobile App Development",
     tags: ["React Native", "React.js", "Node.js", "MongoDB", "Express.js"],
 
-    heroImgs: [ams4], // ✅ must be an array
+    heroImgs: [ams4],
     heroTitle: "AMS-Attendance Management System",
     tagline:
       "A complete web + mobile app solution designed to automate attendance workflows.",
@@ -823,5 +861,328 @@ export const showWorkSeeder = [
       image: supper1,
     },
   },
+
+  // Add these objects to your showWorkSeeder array
+
+  // ===============================================================
+  // 10. VYANSTORE - E-Commerce Platform
+  // ===============================================================
+  {
+    slug: "vyanstore",
+    title: "VyanStore - E-Commerce Platform",
+    subTitle: "Multi-Vendor E-Commerce Marketplace",
+    tags: ["Next.js", "Node.js", "MongoDB", "Redux", "Stripe", "Tailwind"],
+
+    heroImgs: vyanstore6, // lap.png - main hero image
+    heroTitle: "VyanStore - Complete E-Commerce Solution",
+    tagline: "Your One-Stop Destination for Online Shopping",
+    description:
+      "A full-featured e-commerce platform with multi-vendor support, product management, cart functionality, and secure payment gateway integration.",
+
+    screenImg: vyanstore1, // vyanstore.png - main screen mockup
+    showcaseImages: [vyanstore2, vyanstore3, vyanstore4], 
+    floatingImages: [fi1, fi2, fi3],
+
+
+    aboutLeft:
+      "VyanStore is built to provide a seamless online shopping experience with vendor dashboards and customer-friendly interfaces.",
+    aboutRight:
+      "From product listing to checkout, every step is optimized for performance, security, and user satisfaction.",
+
+    client: "Vyanstore", // 🔁 Replace with actual client name
+    role: "Full-stack Development",
+    categoryLine: "E-Commerce Platform",
+    overviewDescription:
+      "A modern multi-vendor marketplace enabling sellers to list products and customers to buy securely.",
+
+    mobileHeading: "Mobile Experience",
+    mobileImages: [vyanstore7, vyanstore8], 
+    mobileFeatures: [
+      {
+        title: "Multi-Vendor Support",
+        subTitle:
+          "Sellers can create their own storefronts, manage inventory, track orders, and handle payouts—all from a dedicated vendor dashboard with analytics and real‑time sales data.",
+      },
+      {
+        title: "Advanced Product Filtering",
+        subTitle:
+          "Smart product search with multi‑category filters, price sliders, rating sort, brand selection, and instant results using optimized database queries.",
+      },
+      {
+        title: "Secure Payment Gateway",
+        subTitle:
+          "Integrated payment flow supporting cards, UPI, net banking, and wallets. All transactions are encrypted, and payment status is updated instantly with email confirmations.",
+      },
+      {
+        title: "Wishlist & Cart Management",
+        subTitle:
+          "Save favorite products, manage cart quantities, apply promo codes, and get dynamic price updates—plus abandoned cart recovery notifications for improved conversions.",
+      },
+      {
+        title: "Order Tracking & History",
+        subTitle:
+          "Real‑time order status updates from confirmation to delivery, with detailed history, invoice downloads, easy reorder options, and shipment tracking links.",
+      },
+    ],
+
+    featuresTitle: "Core Features",
+    featuresSubtitle: "Powerful modules delivered",
+    featuresList: [
+      { title: "Product Management System", image: vyanstore2 },
+      { title: "Vendor Dashboard & Analytics", image: vyanstore3 },
+      { title: "Admin Panel for Full Control", image: vyanstore4 },
+      { title: "Review & Rating System", image: vyanstore1 },
+      { title: "Coupon & Discount Engine", image: vyanstore5 },
+    ],
+    featuresImage: vyanstore7 , // vyanstore4.png
+
+    prevSlug: "supper-club",
+    prevTitle: "Supper Club",
+    nextSlug: "maya-construction",
+    nextTitle: "Maya Construction",
+
+    navigationImage: {
+      title: "VyanStore Project",
+      image: vyanstore6, // lap.png
+    },
+  },
+
+  
+
+  // ===============================================================
+  // 12. VINSTA - Social Media Management
+  // ===============================================================
+  {
+    slug: "vinsta",
+    title: "Vinsta - Social Media Manager",
+    subTitle: "Social Media Scheduling & Analytics Platform",
+    tags: ["React.js", "Node.js", "MongoDB", "Express", "Socket.io"],
+
+    heroImgs: vinsta9, // vinsta8.jpg
+    heroTitle: "Vinsta - Master Your Social Media",
+    tagline: "Schedule, Analyze, Grow — All in One Place",
+    description:
+      "A powerful social media management tool that helps creators and businesses schedule posts, track analytics, and manage multiple accounts across platforms.",
+
+    screenImg: vinsta1, // vinsta.jpg
+    showcaseImages: [vinsta2, vinsta3, vinsta4], // vinsta1.jpeg, vinsta2.png, vinsta3.jpg
+    floatingImages: [fi1, fi2, fi3],
+
+    appShowcaseImages: [],
+
+    aboutLeft:
+      "Vinsta simplifies social media management with intuitive scheduling, detailed performance analytics, and seamless multi‑account handling.",
+    aboutRight:
+      "Save hours every week by planning content in advance, tracking what works, and optimizing your social media strategy—all from one dashboard.",
+
+    client: "Vinsta",
+    role: "Full-stack Development",
+    categoryLine: "Web Application",
+    overviewDescription:
+      "A comprehensive tool for content creators and businesses to manage social media presence efficiently.",
+
+    mobileHeading: "Mobile Experience",
+    mobileImages: [vinsta5, vinsta6], // vinsta4.jpg, vinsta5.jpg
+    mobileFeatures: [
+      {
+        title: "Post Scheduling Calendar",
+        subTitle:
+          "Visual calendar view for planning and scheduling posts across multiple platforms. Drag‑and‑drop interface, bulk scheduling, and content queue management for consistent posting.",
+      },
+      {
+        title: "Multi-Platform Support",
+        subTitle:
+          "Connect and manage Instagram, Facebook, Twitter, LinkedIn, and Pinterest from one dashboard. Switch between accounts without logging in and out repeatedly.",
+      },
+      {
+        title: "Detailed Analytics Dashboard",
+        subTitle:
+          "Track engagement metrics, follower growth, best posting times, and content performance. Export reports in PDF/CSV for client presentations or internal reviews.",
+      },
+      {
+        title: "Content Library & Templates",
+        subTitle:
+          "Save frequently used captions, hashtag sets, and image templates. Reuse best‑performing content and maintain consistent branding across posts.",
+      },
+    ],
+
+    featuresTitle: "Core Modules",
+    featuresSubtitle: "Powerful modules delivered",
+    featuresList: [
+      { title: "Post Scheduling Engine", image: vinsta2 },
+      { title: "Multi-Platform Integration", image: vinsta3 },
+      { title: "Analytics & Insights Dashboard", image: vinsta4 },
+      { title: "Content Library Manager", image: vinsta5 },
+    ],
+    featuresImage: vinsta7, // vinsta6.jpg
+
+    prevSlug: "maya-construction",
+    prevTitle: "Maya Construction",
+    nextSlug: "dncraft",
+    nextTitle: "DN Crafts",
+
+    navigationImage: {
+      title: "Vinsta Project",
+      image: vinsta9, // vinsta8.jpg
+    },
+  },
+
+ 
+  // ===============================================================
+  // 13. DN CRAFTS - Handicraft Marketplace (UPDATED WITH ACTUAL IMAGES)
+  // ===============================================================
+  {
+    slug: "dncraft",
+    title: "DN Crafts - Handicraft Store",
+    subTitle: "Handmade & Artisanal Products Marketplace",
+    tags: ["Next.js", "Tailwind", "MongoDB", "Razorpay", "Cloudinary"],
+
+    mainImg: dncraft7,  // ✅ REMOVE the square brackets - should be single image, not array
+
+    heroImgs: dncraft7, // lap.png - this stays as array
+    heroTitle: "DN Crafts - Celebrate Artistry",
+    tagline: "Handcrafted Treasures from Skilled Artisans",
+    description:
+      "An e-commerce platform dedicated to handmade products, connecting artisans directly with customers who appreciate authentic craftsmanship.",
+
+    screenImg: dncraft1, // dncraftbg.png
+    showcaseImages: [dncraft2, dncraft3, dncraft4],
+    floatingImages: [fi1, fi2, fi3],
+
+    appShowcaseImages: [],
+
+    aboutLeft:
+      "DN Crafts brings you unique, handmade products that tell a story—each piece crafted with care by skilled artisans using traditional techniques.",
+    aboutRight:
+      "From home decor to handmade jewelry and gifts, discover beautiful products that celebrate craftsmanship while supporting artisan communities.",
+
+    client: "Nikita Rai",
+    role: "Full-stack Development",
+    categoryLine: "E-Commerce",
+    overviewDescription:
+      "A beautifully designed marketplace for handmade products with artisan profiles and secure checkout.",
+
+    mobileHeading: "Mobile Experience",
+    mobileImages: [dncraft5, dncraft6],
+    mobileFeatures: [
+      {
+        title: "Product Categories & Filters",
+        subTitle:
+          "Browse products by category—home decor, jewelry, textiles, pottery, and gifts. Filter by price, material, artisan, or bestseller status for easy discovery.",
+      },
+      {
+        title: "Artisan Story Pages",
+        subTitle:
+          "Each product features the artisan's story, craft technique, and location. This authentic connection builds trust and appreciation for the handmade journey.",
+      },
+      {
+        title: "Shopping Cart & Secure Checkout",
+        subTitle:
+          "Seamless cart management with quantity updates, coupon application, and secure payment via multiple methods including cards, UPI, and wallets.",
+      },
+      {
+        title: "Wishlist & Quick Reorder",
+        subTitle:
+          "Save favorite products to a personalized wishlist. One‑click reorder for repeat purchases and order history for easy tracking of past transactions.",
+      },
+    ],
+
+    featuresTitle: "Key Highlights",
+    featuresSubtitle: "Powerful modules delivered",
+    featuresList: [
+      { title: "Artisan Profile System", image: dncraft2 },
+      { title: "Product Gallery with Zoom", image: dncraft3 },
+      { title: "Secure Checkout Flow", image: dncraft4 },
+      { title: "Order Tracking System", image: dncraft1 },
+    ],
+    featuresImage: dncraft4,
+
+    prevSlug: "vinsta",
+    prevTitle: "Vinsta",
+    nextSlug: "ams",
+    nextTitle: "AMS-Attendance Management System",
+
+    navigationImage: {
+      title: "DN Crafts Project",
+      image: dncraft7,
+    },
+  },
+
+  // ===============================================================
+  // MAYA CONSTRUCTION
+  // ===============================================================
+  {
+    slug: "maya-construction",
+    title: "Maya Construction",
+    subTitle: "Construction Company Website",
+    tags: ["React.js", "Tailwind CSS", "Framer Motion", "Node.js"],
+
+    heroImgs: maya4, // lap.png
+    heroTitle: "Maya Construction - Built to Last",
+    tagline: "Quality Construction Services You Can Trust",
+    description:
+      "Professional construction company website showcasing services, completed projects, client testimonials, and inquiry management for residential and commercial construction.",
+
+    screenImg: maya1, // maya1.png
+    showcaseImages: [maya2, maya3, maya7], // maya2.png, maya3.png, maya4.png
+    floatingImages: [fi1, fi2, fi3],
+
+    appShowcaseImages: [maya2, maya3, maya7],
+
+    aboutLeft:
+      "Maya Construction delivers high‑quality construction solutions with a focus on durability, modern design, and timely project completion.",
+    aboutRight:
+      "We specialize in residential buildings, commercial complexes, renovations, and interior design—tailored to each client's vision and budget.",
+
+    client: "Maya Construction",
+    role: "Frontend + Backend Development",
+    categoryLine: "Business Website",
+    overviewDescription:
+      "A professional online presence for a construction company—showcasing expertise, past projects, and easy client inquiry.",
+
+    mobileHeading: "Mobile Experience",
+    mobileImages: [maya5, maya6], // mob1.png, mob2.png
+    mobileFeatures: [
+      {
+        title: "Project Portfolio Gallery",
+        subTitle:
+          "Visual showcase of completed construction projects with categories for residential, commercial, and renovation work. Each project includes high‑quality images, descriptions, and key highlights.",
+      },
+      {
+        title: "Service Pages with Details",
+        subTitle:
+          "Dedicated pages for each service—new construction, remodeling, roofing, plumbing, electrical, and interior design—with detailed descriptions and call‑to‑action buttons.",
+      },
+      {
+        title: "Inquiry & Quote Request Form",
+        subTitle:
+          "Smart contact forms that capture project details, budget range, and timeline; submissions are routed to admin panel and trigger instant email notifications for quick follow‑up.",
+      },
+      {
+        title: "Client Testimonials Section",
+        subTitle:
+          "Display authentic client reviews with star ratings, project photos, and client names to build trust and showcase satisfaction from past projects.",
+      },
+    ],
+
+    featuresTitle: "Key Features",
+    featuresSubtitle: "Powerful modules delivered",
+    featuresList: [
+      { title: "Project Gallery & Filter", image: maya2 },
+      { title: "Service Details Pages", image: maya3 },
+      { title: "Client Testimonial Display", image: maya7 },
+      { title: "Quote Request Management", image: maya1 },
+    ],
+    featuresImage: maya8, // mayabg.png
+
+    prevSlug: "vyanstore",
+    prevTitle: "VyanStore",
+    nextSlug: "vinsta",
+    nextTitle: "Vinsta",
+
+    navigationImage: {
+      title: "Maya Construction",
+      image: maya4, // lap.png
+    },
+  },
 ];
-//cdckmd

@@ -14,7 +14,7 @@ const montserrat = Montserrat({
 export const metadata = {
   // — Basic —
   title: {
-    default: "Vyanwebs | Web & Mobile App Development Agency",
+    default: "Vyanwebs",
     template: "%s | Vyanwebs",
   },
   description:

@@ -1,7 +1,7 @@
 import Home from "@/views/Home/Home";
 
 export const metadata = {
-  title: "Home",
+  title: "Vyanwebs",
   alternates: {
     canonical: "https://vyanwebs.com",
   },

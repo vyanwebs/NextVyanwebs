@@ -677,5 +677,133 @@ export const serviceDetailSeed = [
       prev: { slug: "cloud-devops", title: "Cloud & DevOps Solutions" },
       next: { slug: "ai-ml-data-engineering", title: "AI & Data Solutions" },
     },
-  }
+  },
+
+  // Add this object to your serviceDetailSeed array
+
+{
+    slug: "it-staffing",
+    hero: {
+      title: "IT Staffing",
+      subtitle:
+        "Need a developer? We've got you. Tell us what you need — we'll send you the right person, ready to work.",
+      image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf",
+    },
+
+    services: [
+      {
+        title: "Hire a Frontend Developer",
+        description:
+          "Need someone to build your React, Next.js, or Vue interface? We provide skilled frontend developers who can join your team immediately and deliver pixel-perfect, high-performance UIs.",
+        icon: <Monitor />,
+      },
+      {
+        title: "Hire a Backend Developer",
+        description:
+          "Looking for a Node.js, Python, Java, or PHP developer to power your APIs and server logic? We supply experienced backend engineers who understand scalability, security, and clean architecture.",
+        icon: <Server />,
+      },
+      {
+        title: "Hire a Full Stack Developer",
+        description:
+          "Want one developer who handles both frontend and backend? We provide full stack engineers skilled in MERN, MEAN, or custom stacks — ready to own your product end to end.",
+        icon: <Code />,
+      },
+      {
+        title: "Hire a Mobile App Developer",
+        description:
+          "Building an Android or iOS app? We supply Flutter, React Native, Kotlin, and Swift developers who can take your app from wireframe to App Store — fast.",
+        icon: <Smartphone />,
+      },
+      {
+        title: "Hire a DevOps / Cloud Engineer",
+        description:
+          "Need someone to set up CI/CD, manage your AWS infra, or containerize your app with Docker and Kubernetes? Our DevOps engineers plug into your workflow and keep your systems running smoothly.",
+        icon: <Cloud />,
+      },
+      {
+        title: "Hire a UI/UX Designer",
+        description:
+          "Need clean, conversion-focused designs in Figma? We supply UI/UX designers who understand both aesthetics and usability — delivering designs your developers can actually build.",
+        icon: <Blocks />,
+      },
+      {
+        title: "Hire a Data / AI Engineer",
+        description:
+          "Working with data pipelines, ML models, or analytics dashboards? We provide Python, Spark, Snowflake, and AI engineers who turn your raw data into business value.",
+        icon: <Bot />,
+      },
+      {
+        title: "Hire a QA / Testing Engineer",
+        description:
+          "Want your product tested properly before launch? We supply QA engineers for manual testing, automation (Selenium, Cypress), and performance testing — so bugs don't reach your users.",
+        icon: <Bug />,
+      },
+    ],
+
+    process: {
+      title: "How It Works",
+      subtitle: "Tell us what you need — we handle the rest",
+      steps: [
+        { title: "Share Your Requirement", desc: "Tell us the role, skills, and timeline you need" },
+        { title: "We Source & Screen", desc: "We find and vet candidates from our talent network" },
+        { title: "You Review Profiles", desc: "We send you 2–3 best-matched profiles to choose from" },
+        { title: "Quick Interview", desc: "You talk to the candidate and confirm the fit" },
+        { title: "They Start Working", desc: "Onboarding done — your developer joins your team" },
+      ],
+    },
+
+    technologies: [
+      "React",
+      "Next.js",
+      "Node.js",
+      "Python",
+      "Flutter",
+      "React Native",
+      "Java",
+      "DevOps",
+      "AWS",
+      "Figma",
+      "AI / ML",
+      "QA Automation",
+    ],
+
+    faqs: [
+      {
+        question: "How do I tell you what kind of developer I need?",
+        answer:
+          "Just reach out via our contact form or WhatsApp. Tell us the role, the skills you need, how long you need them for, and whether it's remote or on-site. We'll handle everything from there.",
+      },
+      {
+        question: "How fast can you provide someone?",
+        answer:
+          "For most roles we can share shortlisted profiles within 2–4 business days. If you need someone urgently, let us know — we'll prioritize from our active talent pool.",
+      },
+      {
+        question: "Can I hire for just a short project?",
+        answer:
+          "Absolutely. We provide developers for projects as short as 2 weeks or as long as you need. Contract, part-time, or full-time — whatever fits your requirement.",
+      },
+      {
+        question: "What if the developer doesn't work out?",
+        answer:
+          "We offer a replacement guarantee. If it's not a good fit within the first two weeks, we'll find you a better match at no extra cost.",
+      },
+      {
+        question: "Do you provide remote developers?",
+        answer:
+          "Yes. All our developers are comfortable working remotely with daily standups, project management tools, and transparent communication — just like an in-house hire.",
+      },
+      {
+        question: "What technologies do your developers work with?",
+        answer:
+          "We have talent across React, Next.js, Node.js, Python, Flutter, React Native, Java, DevOps, AWS, Figma, AI/ML, and QA automation — covering almost every modern tech stack.",
+      },
+    ],
+
+    navigation: {
+      prev: { slug: "ai-ml-data-engineering", title: "AI & Data Solutions" },
+      next: { slug: "web-development", title: "Web Development" },
+    },
+  },
 ];

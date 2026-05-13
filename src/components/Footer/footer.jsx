@@ -84,7 +84,6 @@ const Footer = () => {
             </div>
             <div>
               <h5 className="font-semibold">📞 +91 9111721315</h5>
-              <h5 className="font-semibold">✉️ hr@vyanwebs.com</h5>
               <h5 className="font-semibold">✉️ info@vyanwebs.com</h5>
             </div>
           </div>

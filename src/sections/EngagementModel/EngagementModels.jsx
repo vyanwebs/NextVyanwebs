@@ -33,7 +33,7 @@ const EngagementModels = () => {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: "top 85%", // Slightly earlier trigger
+          start: "top 85%",
           toggleActions: "play none none reverse",
         },
       });
@@ -80,20 +80,20 @@ const EngagementModels = () => {
 
     return () => {
       ctx.revert();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill()); // Safer than killAll()
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, [engagements]);
 
   return (
     <section
       ref={sectionRef}
-      className="engagement-section relative bg-blue-600 text-white py-20 overflow-hidden"
+      className="engagement-section relative bg-blue-600 text-white py-12 sm:py-16 md:py-20 overflow-hidden"
     >
-      <div className="container relative z-10 max-w-7xl px-6 mx-auto">
-        <div className="max-w-2xl mb-14">
+      <div className="container relative z-10 max-w-7xl px-4 sm:px-6 lg:px-8 mx-auto">
+        <div className="max-w-2xl mb-8 sm:mb-10 md:mb-12 lg:mb-14">
           <h2
             ref={titleRef}
-            className="text-4xl md:text-5xl font-bold leading-tight engagement-title"
+            className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold leading-tight engagement-title"
           >
             FLEXIBLE MODELS <br />
             <span className="text-white">TO MATCH YOUR VISION</span>
@@ -102,20 +102,20 @@ const EngagementModels = () => {
 
           <h5
             ref={subtitleRef}
-            className="text-lg md:text-xl text-gray-200 mt-4 engagement-subtitle"
+            className="text-base sm:text-lg md:text-xl text-gray-200 mt-3 sm:mt-4 engagement-subtitle"
           >
             Select flexible model that fits your business needs.
           </h5>
         </div>
 
-        {/* Cards */}
-        <div className="grid gap-8 md:gap-10 lg:gap-12 md:grid-cols-2 lg:grid-cols-3 group">
+        {/* Cards - Mobile responsive grid */}
+        <div className="grid gap-5 sm:gap-6 md:gap-8 lg:gap-10 xl:gap-12 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 group">
           {engagements.map((card, index) => (
             <div
               key={card._id}
               ref={(el) => (cardRefs.current[index] = el)}
               className="cursor-pointer transform transition-all duration-300 ease-in-out
-              hover:scale-105 hover:z-10"
+              hover:scale-105 hover:z-10 active:scale-98 sm:active:scale-100"
               onClick={() => router.push(card.link || "/contact")}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
@@ -143,6 +143,23 @@ const EngagementModels = () => {
           ))}
         </div>
       </div>
+
+      {/* Add responsive styles if needed */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .engagement-section :global(.engagement-card) {
+            margin: 0 auto;
+            width: 100%;
+          }
+        }
+        
+        @media (max-width: 480px) {
+          .engagement-section :global(.engagement-card img) {
+            min-height: 180px;
+            object-fit: cover;
+          }
+        }
+      `}</style>
     </section>
   );
 };

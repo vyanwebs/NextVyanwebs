@@ -1,6 +1,6 @@
-import img1 from "../assets/dedicated 1.webp"
-import img2 from "../assets/dedicated 2.webp"
-import img3 from "../assets/dedicated 3.webp"
+import img1 from "../assets/discoverhome/img1.jpg";
+import img2 from "../assets/discoverhome/img2.jpg";
+import img3 from "../assets/discoverhome/img3.jpg";
 export const engagementSeed = [
   {
     _id: "1",

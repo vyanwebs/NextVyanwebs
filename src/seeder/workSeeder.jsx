@@ -137,14 +137,14 @@ export const workSeeder = [
     backend: "Node.js Express"
   },
   {
-    title: "Dncraf - Digital Crafts",
+    title: "Dncraft - Digital Crafts",
     subTitle: "Web Application + E-commerce Platform",
     tags: ["React.js", "FastAPI", "Python", "PostgreSQL", "Redux", "Tailwind", "SQLAlchemy", "Pydantic"],
     mainImg: dncrafBg,
     screenImg: dncrafImg,
     showScreen: false,
     orientation: "landscape",
-    slug: "dncraf",
+    slug: "dncraft",
     backend: "Python FastAPI"
   },
   {

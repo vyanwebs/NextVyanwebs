@@ -14,13 +14,14 @@ import { ourServiceSeed } from "@/seeder/ourServiceSeed";
 import bgImage from "../../assets/service-bg-image.png";
 
 // Import images from discoverhome folder
-import aiMlImage from "../../assets/discoverhome/AI, Machine Learning & Data Engineering.jpg";
-import appdevImage from "../../assets/discoverhome/appdev.jpg";
-import cloudImage from "../../assets/discoverhome/cloud.jpg";
-import ecommerceImage from "../../assets/discoverhome/eccomerce.jpg";
-import figmaImage from "../../assets/discoverhome/figma.jpg";
-import softwaredevImage from "../../assets/discoverhome/softwaredev.jpg";
-import webdevImage from "../../assets/discoverhome/webdev.jpg";
+import aiMlImage from "../../assets/discoverhome/img1.jpg";
+import appdevImage from "../../assets/discoverhome/img2.jpg";
+import cloudImage from "../../assets/discoverhome/img3.jpg";
+import ecommerceImage from "../../assets/discoverhome/img4.jpg";
+import figmaImage from "../../assets/discoverhome/img3.jpg";
+import softwaredevImage from "../../assets/discoverhome/img1.jpg";
+import webdevImage from "../../assets/discoverhome/img2.jpg";
+import Staffing from "../../assets/discoverhome/staffing.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,6 +36,7 @@ const serviceImageMap = {
   "UI/UX Design": figmaImage,
   "Software Development": softwaredevImage,
   "Web Development": webdevImage,
+  "IT Staffing & Recruitment": Staffing,
 };
 
 const Service = () => {
