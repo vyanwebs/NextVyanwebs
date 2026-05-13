@@ -21,6 +21,7 @@ import ecommerceImage from "../../assets/discoverhome/img4.jpg";
 import figmaImage from "../../assets/discoverhome/img3.jpg";
 import softwaredevImage from "../../assets/discoverhome/img1.jpg";
 import webdevImage from "../../assets/discoverhome/img2.jpg";
+import Staffing from "../../assets/discoverhome/staffing.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -35,6 +36,7 @@ const serviceImageMap = {
   "UI/UX Design": figmaImage,
   "Software Development": softwaredevImage,
   "Web Development": webdevImage,
+  "IT Staffing & Recruitment": Staffing,
 };
 
 const Service = () => {
