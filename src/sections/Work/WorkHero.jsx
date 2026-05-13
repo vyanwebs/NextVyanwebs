@@ -57,7 +57,7 @@ const WorkHero = () => {
           ref={textRef}
           className="text-lg md:text-xl leading-relaxed text-black font-bold"
         >
-          For over 3 years, we've assisted technology startups, enterprises, and
+          For over 6 years, we've assisted technology startups, enterprises, and
           Fortune 500 companies in building innovative solutions. Discover why
           they chose us and how we transformed their operations.
         </h5>
